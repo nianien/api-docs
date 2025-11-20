@@ -1,0 +1,239 @@
+openapi: 3.1.0
+info:
+  title: Market Data
+  description: Market Data WebSocket API provides real-time market data updates.
+  version: 1.0.0
+
+servers:
+  - url: wss://gateway.zeromarketsapi.com
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /gaia/ws/api/v1:
+    get:
+      summary: Connect for streaming tick and chart data
+      description: |
+        Establish a WebSocket session to receive streaming quotes and chart bars.
+        Typical workflow:
+
+        1. Connect with a valid API token in the `Authorization` header.
+        2. Send heartbeat every ~20 seconds to prevent idle disconnects.
+        3. Send subscription messages for price or chart bar feeds.
+        4. Send unsubscribe messages when the feed is no longer required.
+
+        All inbound/outbound payloads are JSON objects. Sample payloads are
+        provided in the **Code Samples** and **Examples** sections below.
+      operationId: connectWebSocket
+      tags:
+        - WebSocket
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '101':
+          description: WebSocket handshake accepted; subsequent traffic flows over the upgraded channel.
+          headers:
+            Upgrade:
+              schema:
+                type: string
+                enum: [websocket]
+            Connection:
+              schema:
+                type: string
+                enum: [Upgrade]
+        '400':
+          description: Invalid connect headers or unsupported protocol.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              examples:
+                badProtocol:
+                  summary: Unsupported protocol version
+                  value:
+                    code: 40010
+                    msg: Only RFC6455 WebSocket protocol is supported
+        '401':
+          description: Unauthorized - Invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              examples:
+                missingToken:
+                  summary: Missing Authorization header
+                  $ref: '#/components/examples/MissingToken'
+                invalidToken:
+                  summary: Invalid API token
+                  $ref: '#/components/examples/InvalidToken'
+        '429':
+          description: Connection throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+              examples:
+                throttled:
+                  summary: Too many concurrent sockets
+                  value:
+                    code: 42901
+                    msg: connection limit exceeded
+      x-codeSamples:
+        - lang: bash
+          label: Connect & subscribe with wscat
+          source: |
+            wscat \
+              -c wss://gateway.zeromarketsapi.com/gaia/ws/api/v1 \
+              -H "Authorization: Bearer <token>"
+
+            # Heartbeat
+            {"messageType": "HeartBeat"}
+
+            # Subscribe to quotes
+            {"messageType": "subscribePrice", "symbols": ["BTCUSD", "ETHUSD"]}
+
+            # Subscribe to chart bars
+            {"messageType": "subscribeChartBar", "symbols": ["BTCUSD"], "resolution": "M1"}
+
+            # Unsubscribe
+            {"messageType": "unsubscribePrice", "symbols": ["ETHUSD"]}
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+
+  schemas:
+    WebSocketHeartBeat:
+      type: object
+      properties:
+        messageType:
+          type: string
+          enum: ["HeartBeat"]
+    WebSocketSubscribePrice:
+      type: object
+      properties:
+        messageType:
+          type: string
+          enum: ["subscribePrice"]
+        symbols:
+          type: array
+          items:
+            type: string
+    WebSocketSubscribeChartBar:
+      type: object
+      properties:
+        messageType:
+          type: string
+          enum: ["subscribeChartBar"]
+        symbols:
+          type: array
+          items:
+            type: string
+        resolution:
+          type: string
+    WebSocketUnsubscribePrice:
+      type: object
+      properties:
+        messageType:
+          type: string
+          enum: ["unsubscribePrice"]
+        symbols:
+          type: array
+          items:
+            type: string
+    WebSocketUnsubscribeChartBar:
+      type: object
+      properties:
+        messageType:
+          type: string
+          enum: ["unsubscribeChartBar"]
+        symbols:
+          type: array
+          items:
+            type: string
+    WebSocketPriceUpdate:
+      type: object
+      properties:
+        symbol:
+          type: string
+        timestamp:
+          type: integer
+        ask:
+          type: number
+        bid:
+          type: number
+    WebSocketChartBarUpdate:
+      type: object
+      properties:
+        symbol:
+          type: string
+        resolution:
+          type: string
+        timestamp:
+          type: integer
+        open:
+          type: number
+        high:
+          type: number
+        low:
+          type: number
+        close:
+          type: number
+    ApiErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        msg:
+          type: string
+          description: Error message
+
+  examples:
+    MissingToken:
+      value:
+        code: 40100
+        msg: Authorization header missing
+    InvalidToken:
+      value:
+        code: 40101
+        msg: Invalid API token
+    HeartBeatExample:
+      value:
+        messageType: "HeartBeat"
+    SubscribePriceExample:
+      value:
+        messageType: "subscribePrice"
+        symbols: ["BTCUSD", "ETHUSD"]
+    SubscribeChartBarExample:
+      value:
+        messageType: "subscribeChartBar"
+        symbols: ["BTCUSD"]
+        resolution: "M1"
+    UnsubscribePriceExample:
+      value:
+        messageType: "unsubscribePrice"
+        symbols: ["BTCUSD", "ETHUSD"]
+    UnsubscribeChartBarExample:
+      value:
+        messageType: "unsubscribeChartBar"
+        symbols: ["BTCUSD"]
+    PriceUpdateExample:
+      value:
+        symbol: "BTCUSD"
+        timestamp: 1625097600
+        ask: 35000.5
+        bid: 34999.5
+    ChartBarUpdateExample:
+      value:
+        symbol: "BTCUSD"
+        resolution: "M1"
+        timestamp: 1625097600
+        open: 35000.0
+        high: 35050.0
+        low: 34950.0
+        close: 35025.0

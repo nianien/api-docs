@@ -1,0 +1,48 @@
+.features {
+  padding: 0 0 4rem;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.featureCard {
+  border-radius: 1.5rem;
+  padding: 2rem;
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid rgba(226, 232, 240, 0.15);
+  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.3);
+}
+
+.featureCard h3 {
+  margin: 0.5rem 0 0.75rem;
+  color: #f8fafc;
+}
+
+.featureDescription {
+  margin-bottom: 1.25rem;
+  color: #94a3b8;
+}
+
+.featureBadge {
+  display: inline-flex;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(248, 250, 252, 0.1);
+  color: #38bdf8;
+}
+
+.featureLink {
+  font-weight: 600;
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+.featureLink:hover {
+  text-decoration: underline;
+}

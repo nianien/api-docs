@@ -1,0 +1,67 @@
+openapi: 3.0.1
+info:
+  title: Demo Service A API
+  version: 1.0.0
+  description: Minimal sample API used to verify the portal wiring.
+
+servers:
+  - url: https://demo.service-a.local
+
+paths:
+  /hello:
+    get:
+      tags:
+        - Demo
+      operationId: sayHello
+      summary: Say hello
+      description: Returns a friendly greeting message. Use it to confirm the docs pipeline works end-to-end.
+      parameters:
+        - name: name
+          in: query
+          required: false
+          description: Name to include in the greeting.
+          schema:
+            type: string
+            example: Alice
+      responses:
+        '200':
+          description: Greeting payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloResponse'
+              examples:
+                default:
+                  value:
+                    message: Hello, Alice!
+        '400':
+          description: Invalid name supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Unexpected server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codeSamples:
+        - lang: bash
+          label: Basic request
+          source: |
+            curl --request GET \
+              --url 'https://demo.service-a.local/hello?name=Alice'
+
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string

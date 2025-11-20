@@ -1,0 +1,170 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  position: relative;
+  padding: 6rem 0 4rem;
+  background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.35), transparent),
+    linear-gradient(135deg, #020617 0%, #0f172a 60%, #111827 100%);
+  color: #f8fafc;
+  text-align: left;
+}
+
+.heroBanner::after {
+  content: '';
+  position: absolute;
+  inset: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 32px;
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  max-width: 780px;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.heroBadge {
+  display: inline-flex;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(14, 165, 233, 0.15);
+  color: #7dd3fc;
+  margin-bottom: 1rem;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 6vw, 3.75rem);
+  margin-bottom: 1.25rem;
+  color: #f8fafc;
+  line-height: 1.1;
+}
+
+.heroSubtitle {
+  color: #cbd5f5;
+  font-size: 1.1rem;
+  max-width: 640px;
+  margin-bottom: 2rem;
+}
+
+.ctaGroup {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.heroStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  text-align: center;
+}
+
+.heroStats span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.heroStats p {
+  margin: 0.25rem 0 0;
+  color: #94a3b8;
+}
+
+.serviceSection {
+  padding: 4rem 0;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.sectionHeader h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.sectionHeader p {
+  color: #475569;
+  margin: 0 auto;
+  max-width: 560px;
+}
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.serviceCard {
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  background: linear-gradient(135deg, #ffffff, #f9fafb);
+  border: 1px solid #e2e8f0;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.serviceCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+.serviceBadge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0ea5e9;
+  background: rgba(14, 165, 233, 0.12);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.serviceCard h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #0f172a;
+}
+
+.serviceRoute {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.serviceLink {
+  margin-top: auto;
+  font-weight: 600;
+  color: #0ea5e9;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 4rem 1.5rem;
+  }
+
+  .heroBanner::after {
+    inset: 0.75rem;
+  }
+
+  .heroStats {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .ctaGroup {
+    flex-direction: column;
+  }
+}

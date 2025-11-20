@@ -5,7 +5,7 @@
 ## 架构说明
 
 - **业务服务仓**：负责生成 `openapi-xxx.yaml`（对业务仓来说是产物）
-- **api-docs-portal 仓**：Docusaurus + Redocusaurus，将 YAML 文件渲染成 API 文档站
+- **api-docs 仓**：Docusaurus + Redocusaurus，将 YAML 文件渲染成 API 文档站
 - **部署**：构建后的静态站点可部署到 GitHub Pages 或 Nginx
 
 ## 快速开始
@@ -48,12 +48,12 @@ npm run serve
 
 这会生成 `openapi-service-a.yaml` 文件。
 
-### 2. 同步到 api-docs-portal
+### 2. 同步到 api-docs 仓
 
 将生成的 YAML 文件复制到 `static/openapi/` 目录：
 
 ```bash
-cp openapi-service-a.yaml ../api-docs-portal/static/openapi/service-b.yaml
+cp openapi-service-a.yaml ../api-docs/static/openapi/service-b.yaml
 ```
 
 ### 3. 配置 Docusaurus
@@ -117,7 +117,7 @@ npm run build
 ### Nginx
 
 1. 构建项目：`npm run build`
-2. 将 `build/` 目录内容复制到服务器，例如 `/var/www/api-docs-portal`
+2. 将 `build/` 目录内容复制到服务器，例如 `/var/www/api-docs`
 3. 配置 Nginx：
 
 ```nginx
@@ -125,7 +125,7 @@ server {
     listen 80;
     server_name api-docs.your-company.com;
 
-    root /var/www/api-docs-portal;
+    root /var/www/api-docs;
 
     location / {
         try_files $uri $uri/ /index.html;
@@ -136,7 +136,7 @@ server {
 ## 目录结构
 
 ```
-api-docs-portal/
+api-docs/
 ├── static/
 │   └── openapi/          # OpenAPI YAML 文件存放目录
 │       └── service-a.yaml

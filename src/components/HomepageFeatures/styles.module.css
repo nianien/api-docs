@@ -1,5 +1,6 @@
 .features {
   padding: 0 0 4rem;
+  background: #ffffff;
 }
 
 .featureGrid {
@@ -11,20 +12,20 @@
 .featureCard {
   border-radius: 1.5rem;
   padding: 2rem;
-  background: #0f172a;
-  color: #e2e8f0;
-  border: 1px solid rgba(226, 232, 240, 0.15);
-  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.3);
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
 }
 
 .featureCard h3 {
   margin: 0.5rem 0 0.75rem;
-  color: #f8fafc;
+  color: #0f172a;
 }
 
 .featureDescription {
   margin-bottom: 1.25rem;
-  color: #94a3b8;
+  color: #475569;
 }
 
 .featureBadge {
@@ -33,13 +34,13 @@
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 600;
-  background: rgba(248, 250, 252, 0.1);
-  color: #38bdf8;
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
 }
 
 .featureLink {
   font-weight: 600;
-  color: #38bdf8;
+  color: #2563eb;
   text-decoration: none;
 }
 

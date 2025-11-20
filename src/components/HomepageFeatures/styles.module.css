@@ -1,12 +1,16 @@
 .features {
   padding: 0 0 4rem;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f6ff 70%, #ffffff 100%);
+}
+
+[data-theme='dark'] .features {
+  background: linear-gradient(180deg, #020617 0%, #0f172a 70%, #020617 100%);
 }
 
 .featureGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 .featureCard {
@@ -14,8 +18,11 @@
   padding: 2rem;
   background: #ffffff;
   color: #0f172a;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 22px 45px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .featureCard h3 {
@@ -30,11 +37,11 @@
 
 .featureBadge {
   display: inline-flex;
-  padding: 0.25rem 0.75rem;
+  padding: 0.3rem 0.85rem;
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 600;
-  background: rgba(37, 99, 235, 0.12);
+  background: rgba(59, 130, 246, 0.12);
   color: #2563eb;
 }
 
@@ -42,8 +49,39 @@
   font-weight: 600;
   color: #2563eb;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-.featureLink:hover {
-  text-decoration: underline;
+.featureLink::after {
+  content: '→';
+  transition: transform 0.2s ease;
+}
+
+.featureLink:hover::after {
+  transform: translateX(4px);
+}
+
+[data-theme='dark'] .featureCard {
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(99, 102, 241, 0.35);
+  color: #e2e8f0;
+}
+
+[data-theme='dark'] .featureCard h3 {
+  color: #f8fafc;
+}
+
+[data-theme='dark'] .featureDescription {
+  color: #cbd5e1;
+}
+
+[data-theme='dark'] .featureBadge {
+  background: rgba(34, 211, 238, 0.2);
+  color: #22d3ee;
+}
+
+[data-theme='dark'] .featureLink {
+  color: #22d3ee;
 }

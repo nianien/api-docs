@@ -1,76 +1,45 @@
 // @ts-check
 
-const Prism = require('prismjs');
-require('prismjs/components/prism-markup');
-require('prismjs/components/prism-json');
-require('prismjs/components/prism-yaml');
-
 const {themes} = require('prism-react-renderer');
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 
-const repoInfo = process.env.GITHUB_REPOSITORY?.split('/') ?? [];
-const repoOwner = repoInfo[0];
-const repoName = repoInfo[1];
-const isGitHubPagesBuild = Boolean(process.env.GITHUB_ACTIONS && repoOwner && repoName);
-const isDevServer = process.env.NODE_ENV === 'development';
+const repoOwner = 'nianien';
+const repoName = 'api-docs';
+const siteUrl = `https://${repoOwner}.github.io`;
+const siteBaseUrl = '/api-docs/';
 
-const withLeadingAndTrailingSlash = (value) => {
-  if (!value) {
-    return '/';
-  }
-  let next = value.startsWith('/') ? value : `/${value}`;
-  next = next.endsWith('/') ? next : `${next}/`;
-  return next;
+// API Specs 配置 - 按方案 B 的域结构组织（用于导航栏）
+const apiSpecs = {
+  trading: [
+    {
+      id: 'trading-positions',
+      label: 'Positions API',
+      route: '/api/trading/positions',
+    },
+    {
+      id: 'trading-history',
+      label: 'History API',
+      route: '/api/trading/history',
+    },
+  ],
+  marketData: [
+    {
+      id: 'marketdata-ws',
+      label: 'Realtime WS API',
+      route: '/api/market-data/websocket',
+    },
+    {
+      id: 'price-history',
+      label: 'Price History API',
+      route: '/api/market-data/price-history',
+    },
+  ],
 };
 
-const siteUrl =
-  process.env.DOCS_SITE_URL ??
-  (isGitHubPagesBuild ? `https://${repoOwner}.github.io` : 'https://your-org.github.io');
-
-const siteBaseUrl = (() => {
-  if (process.env.DOCS_BASE_URL) {
-    return withLeadingAndTrailingSlash(process.env.DOCS_BASE_URL);
-  }
-  if (isDevServer) {
-    return '/';
-  }
-  if (isGitHubPagesBuild && repoName) {
-    return withLeadingAndTrailingSlash(repoName);
-  }
-  return '/';
-})();
-
-const serviceSpecs = [
-  {
-    id: 'price-history',
-    label: 'Price History API',
-    route: '/price-history',
-    spec: 'static/openapi/price_history.yaml',
-  },
-  {
-    id: 'market-data',
-    label: 'Market Data API',
-    route: '/market-data',
-    spec: 'static/openapi/market_data.yaml',
-  },
-  {
-    id: 'ib-portal',
-    label: 'IB Portal API',
-    route: '/ib-portal',
-    spec: 'static/openapi/ib_portal_api.yaml',
-  },
-  {
-    id: 'blackarrow-positions',
-    label: 'BlackArrow Positions API',
-    route: '/blackarrow-positions',
-    spec: 'static/openapi/ba_position.yaml',
-  },
-];
-
 const config = {
-  title: 'API Docs Portal',
-  tagline: 'One home for every OpenAPI in your stack',
+  title: 'Zero Markets Developer Portal',
+  tagline: 'Trade with Confidence in Global Markets',
   favicon: 'img/favicon.ico',
 
   // 你的站点地址（如果用 GitHub Pages）
@@ -78,8 +47,8 @@ const config = {
   // 仓库名（例如 api-docs-portal）
   baseUrl: siteBaseUrl,
 
-  organizationName: repoOwner ?? 'your-org', // GitHub org 或用户名
-  projectName: repoName ?? 'api-docs-portal', // 仓库名
+  organizationName: repoOwner, // GitHub org 或用户名
+  projectName: repoName, // 仓库名
 
   onBrokenLinks: 'throw',
 
@@ -90,13 +59,51 @@ const config = {
   },
 
   customFields: {
-    serviceSpecs,
+    apiSpecs,
   },
+
 
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  plugins: [
+    function(context, options) {
+      return {
+        name: 'webpack-config-plugin',
+        configureWebpack(config, isServer) {
+          const webpack = require('webpack');
+          const path = require('path');
+          
+          // 替换 prism-scala 为 stub 模块
+          const plugins = [
+            new webpack.NormalModuleReplacementPlugin(
+              /prismjs\/components\/prism-scala\.js$/,
+              path.resolve(__dirname, 'src/utils/prism-scala-stub.js')
+            ),
+            // 也处理不带 .js 扩展名的情况
+            new webpack.NormalModuleReplacementPlugin(
+              /prismjs\/components\/prism-scala$/,
+              path.resolve(__dirname, 'src/utils/prism-scala-stub.js')
+            ),
+          ];
+          
+          
+          return {
+            plugins,
+            resolve: {
+              alias: {
+                'prismjs/components/prism-scala': path.resolve(__dirname, 'src/utils/prism-scala-stub.js'),
+                'prismjs/components/prism-scala.js': path.resolve(__dirname, 'src/utils/prism-scala-stub.js'),
+              },
+              extensions: ['.js', '.json'],
+            },
+          };
+        },
+      };
+    },
+  ],
 
   presets: [
     [
@@ -104,6 +111,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          routeBasePath: '/docs',
         },
         blog: false,
         theme: {
@@ -115,87 +123,209 @@ const config = {
     [
       'redocusaurus',
       {
-        specs: serviceSpecs.map(({id, spec, route}) => ({
-          id,
-          spec,
-          route,
-        })),
+        specs: [
+          // Trading – Positions API
+          {
+            id: 'trading-positions',
+            spec: 'static/openapi/ba_position.yaml',
+            route: '/api/trading/positions',
+          },
+          // Trading – History API (IB Portal)
+          {
+            id: 'trading-history',
+            spec: 'static/openapi/ib_portal_api.yaml',
+            route: '/api/trading/history',
+          },
+          // Market Data – Realtime WS API
+          {
+            id: 'marketdata-ws',
+            spec: 'static/openapi/market_data.yaml',
+            route: '/api/market-data/websocket',
+          },
+          // Market Data – Price History API
+          {
+            id: 'price-history',
+            spec: 'static/openapi/price_history.yaml',
+            route: '/api/market-data/price-history',
+          },
+        ],
         theme: {
-          primaryColor: '#25c2a0',
+          primaryColor: '#00C46B',
+          options: {
+            nativeScrollbars: true,
+            hideDownloadButton: false,
+            disableSearch: false,
+            theme: {
+              colors: {
+                primary: {main: '#00C46B'},
+                text: {
+                  primary: '#0b1020',
+                  secondary: '#4b5563',
+                },
+                http: {
+                  get: '#16a34a',
+                  post: '#0ea5e9',
+                  put: '#eab308',
+                  delete: '#ef4444',
+                },
+                background: {
+                  default: '#ffffff',
+                  sidebar: '#f7f9fb',
+                },
+              },
+              typography: {
+                fontFamily:
+                  '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+                headings: {
+                  fontWeight: 600,
+                },
+                code: {
+                  fontFamily:
+                    '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                  fontSize: '13px',
+                },
+              },
+              sidebar: {
+                backgroundColor: '#f7f9fb',
+                textColor: '#0b1020',
+                activeTextColor: '#00C46B',
+              },
+            },
+          },
         },
       },
     ],
   ],
 
   themeConfig: {
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/social-card-2.png',
     colorMode: {
       defaultMode: 'light',
       respectPrefersColorScheme: true,
       disableSwitch: false,
     },
     navbar: {
-      title: 'API Docs',
+      style: 'primary',
+      title: 'Zero Markets',
       logo: {
-        alt: 'API Docs Portal',
-        src: 'img/logo.svg',
+        alt: 'Zero Markets Logo',
+        src: 'img/logo-3.png',
       },
       items: [
-        {to: '/docs/intro', label: '文档说明', position: 'left'},
         {
-          label: 'API 总览',
-          to: '/docs/apis/overview',
+          label: 'Markets',
+          to: '/markets',
           position: 'left',
         },
-        ...serviceSpecs.map(({route, label}) => ({
-          to: route,
-          label,
-          position: 'left',
-        })),
         {
-          href: 'https://github.com/your-org/api-docs-portal',
-          label: 'GitHub',
-          position: 'right',
+          label: 'Platforms',
+          to: '/platforms',
+          position: 'left',
         },
         {
-          href: 'mailto:api-support@your-company.com',
-          label: 'Contact',
+          label: 'Account Types',
+          to: '/account-types',
+          position: 'left',
+        },
+        {
+          label: 'Docs',
+          type: 'docSidebar',
+          sidebarId: 'docsSidebar',
+          position: 'left',
+        },
+        {
+          label: 'API Reference',
+          position: 'left',
+          items: [
+            {
+              label: 'API Overview',
+              to: '/api',
+            },
+            {
+              type: 'html',
+              value: '<hr style="margin: 0.5rem 0; border: none; border-top: 1px solid var(--ifm-color-emphasis-300);" />',
+            },
+            {
+              type: 'html',
+              value: '<span style="font-size: 0.75rem; color: var(--ifm-color-emphasis-600); padding: 0.25rem 0.75rem;">Trading</span>',
+            },
+            // Trading APIs
+            ...apiSpecs.trading.map(({route, label}) => ({
+              to: route,
+              label,
+            })),
+            {
+              type: 'html',
+              value: '<hr style="margin: 0.5rem 0; border: none; border-top: 1px solid var(--ifm-color-emphasis-300);" />',
+            },
+            {
+              type: 'html',
+              value: '<span style="font-size: 0.75rem; color: var(--ifm-color-emphasis-600); padding: 0.25rem 0.75rem;">Market Data</span>',
+            },
+            // Market Data APIs
+            ...apiSpecs.marketData.map(({route, label}) => ({
+              to: route,
+              label,
+            })),
+          ],
+        },
+        {
+          href: 'https://zeromarkets.com',
+          label: 'Main Website',
           position: 'right',
         },
       ],
     },
     footer: {
-      style: 'light',
+      style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Trading',
           items: [
-            {label: 'Getting Started', to: '/docs/intro'},
-            {label: 'API Overview', to: '/docs/apis/overview'},
+            {label: 'Trading Overview', to: '/docs/domains/trading/overview'},
+            {label: 'Positions', to: '/docs/domains/trading/positions'},
+            {label: 'History', to: '/docs/domains/trading/history'},
           ],
         },
         {
-          title: 'APIs',
-          items: serviceSpecs.map(({label, route}) => ({
-            label,
-            to: route,
-          })),
+          title: 'Market Data',
+          items: [
+            {
+              label: 'Market Data Overview',
+              to: '/docs/domains/market-data/overview',
+            },
+            {label: 'WebSocket', to: '/docs/domains/market-data/websocket'},
+            {
+              label: 'Price History',
+              to: '/docs/domains/market-data/price-history',
+            },
+          ],
         },
         {
-          title: 'Support',
+          title: 'Integration',
           items: [
-            {label: 'Status Page', href: 'https://status.your-company.com'},
-            {label: 'Contact', href: 'mailto:api-support@your-company.com'},
+            {label: 'Sandbox', to: '/docs/integration/sandbox'},
+            {label: 'SDK', to: '/docs/integration/sdk'},
+            {label: 'Changelog', to: '/docs/changelog'},
           ],
         },
       ],
-      copyright: `© ${new Date().getFullYear()} Your Company`,
+      copyright:
+        '© ' +
+        new Date().getFullYear() +
+        ' Zero Markets. All rights reserved. FX and CFDs trading involves a high risk of loss.',
     },
     prism: {
       theme: lightCodeTheme,
       darkTheme: darkCodeTheme,
-      additionalLanguages: ['bash', 'clike', 'java', 'python', 'scala'],
+      additionalLanguages: ['java', 'kotlin', 'go', 'bash', 'yaml'],
     },
+    scripts: [
+      {
+        src: `${siteBaseUrl}prism-fix.js`,
+        async: false,
+      },
+    ],
   },
 };
 

@@ -1,61 +1,165 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* ===========
+   全局品牌变量（Zero Markets 主题）
+   =========== */
 
 :root {
-  --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  /* 字体 */
+  --ifm-font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
     system-ui, sans-serif;
-  --ifm-color-primary: #2563eb;
-  --ifm-color-primary-dark: #1d4ed8;
-  --ifm-color-primary-darker: #1e3fae;
-  --ifm-color-primary-darkest: #1a3184;
-  --ifm-color-primary-light: #3b82f6;
-  --ifm-color-primary-lighter: #60a5fa;
-  --ifm-color-primary-lightest: #bfdbfe;
-  --ifm-code-font-size: 0.95rem;
-  --docusaurus-highlighted-code-line-bg: rgba(37, 99, 235, 0.08);
-  --ifm-border-radius-md: 0.75rem;
-  --ifm-navbar-background-color: rgba(255, 255, 255, 0.92);
-  --ifm-navbar-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  --ifm-heading-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    system-ui, sans-serif;
+
+  /* 主配色：Zero Markets 绿 */
+  --ifm-color-primary: #00c46b;
+  --ifm-color-primary-dark: #009a55;
+  --ifm-color-primary-darker: #007c45;
+  --ifm-color-primary-light: #33d18a;
+  --ifm-color-primary-lighter: #66dea8;
+
+  /* 背景与导航、页脚 */
+  --ifm-navbar-background-color: #021713;   /* 顶部深绿 */
+  --ifm-footer-background-color: #010d0a;   /* 底部更暗一点 */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #ffffff;
+
+  /* 链接颜色 */
+  --ifm-link-color: #00c46b;
+  --ifm-link-hover-decoration: none;
+
+  /* 代码块略微收一下字号 */
+  --ifm-code-font-size: 90%;
 }
 
-[data-theme='dark'] {
-  --ifm-color-primary: #93c5fd;
-  --ifm-color-primary-dark: #60a5fa;
-  --ifm-color-primary-darker: #3b82f6;
-  --ifm-color-primary-darkest: #1d4ed8;
-  --ifm-color-primary-light: #bfdbfe;
-  --ifm-color-primary-lighter: #dbeafe;
-  --ifm-color-primary-lightest: #eff6ff;
-  --docusaurus-highlighted-code-line-bg: rgba(96, 165, 250, 0.15);
+html[data-theme='dark'] {
+  --ifm-color-primary: #33dea8;
+  --ifm-navbar-background-color: #010d0a;
+  --ifm-footer-background-color: #010d0a;
+  --ifm-background-color: #020712;
+  --ifm-background-surface-color: #020712;
+  --ifm-link-color: #33dea8;
 }
 
-body {
-  background-color: #f8fafc;
-  color: #0f172a;
-}
+/* ===========
+   导航栏 & Footer
+   =========== */
 
-[data-theme='dark'] body {
-  background-color: #0b1220;
-}
-
+/* 顶部导航轻微阴影 */
 .navbar {
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: var(--ifm-navbar-shadow);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 
-.navbar__brand,
-.navbar__title,
-.navbar__link,
-.navbar__item {
-  font-weight: 500;
-}
-
+/* Footer 字体稍微亮一点 */
 .footer {
-  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  color: #e5e7eb;
+}
+
+.footer__title {
+  font-weight: 600;
+}
+
+/* ===========
+   文档正文与侧边栏
+   =========== */
+
+/* 文档正文行距舒展一点 */
+.markdown p {
+  line-height: 1.7;
+  font-size: 0.96rem;
+}
+
+/* 文档侧边栏背景：浅灰商务风 */
+.theme-doc-sidebar-container {
+  border-right: 1px solid rgba(15, 23, 42, 0.12);
+  background-color: #f7f9fb;
+}
+
+html[data-theme='dark'] .theme-doc-sidebar-container {
+  background-color: #020712;
+  border-right-color: rgba(148, 163, 184, 0.4);
+}
+
+/* 当前选中的 Sidebar 项稍微强调一下 */
+.menu__link--active {
+  font-weight: 600;
+}
+
+/* ===========
+   首页 / 卡片组件（Developer Portal 常用块）
+   =========== */
+
+/* 通用卡片：用于 Quick Start / Domain 卡片 */
+.api-card {
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 1.25rem 1.5rem;
+  background: #ffffff;
+  transition: box-shadow 0.15s ease, transform 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.api-card:hover {
+  border-color: rgba(0, 196, 107, 0.75);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
+  transform: translateY(-2px);
+}
+
+html[data-theme='dark'] .api-card {
+  background: #020712;
+  border-color: rgba(51, 65, 85, 0.9);
+}
+
+/* 用在首页 hero 那种主按钮 */
+.button.button--primary {
+  border-radius: 999px;
+  padding-inline: 1.6rem;
+}
+
+/* ===========
+   Redocusaurus / Redoc 区域（API Reference 页）
+   =========== */
+
+.redocusaurus .api-content .redoc-wrap {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.redocusaurus .menu-content {
+  font-family: var(--ifm-font-family-base);
+}
+
+/* Redoc 主标题、副标题 */
+.redocusaurus h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.redocusaurus h2 {
+  font-size: 1.25rem;
+  margin-top: 1.8rem;
+}
+
+/* 左侧 API 菜单背景配合整体主题 */
+.redocusaurus .api-content .menu-content {
+  background-color: #f7f9fb;
+}
+
+html[data-theme='dark'] .redocusaurus .api-content .menu-content {
+  background-color: #020712;
+}
+
+/* ===========
+   小工具类（可以按需用）
+   =========== */
+
+/* 文档页顶部的小提示条 */
+.zm-callout {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 196, 107, 0.25);
+  padding: 0.75rem 1rem;
+  background: rgba(0, 196, 107, 0.03);
+  font-size: 0.9rem;
 }

@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkapi_docs_portal=globalThis.webpackChunkapi_docs_portal||[]).push([[692],{8901:a=>{a.exports=JSON.parse('{"name":"docusaurus-plugin-redoc","id":"market-data"}')}}]);

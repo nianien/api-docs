@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: Zero Markets Trading API
+  version: 1.0.0
+  description: |
+    Zero Markets Trading API provides programmatic access to trading functionality.
+    
+    This API allows you to:
+    - Manage trading accounts
+    - Place and manage orders
+    - Access market data
+    - Monitor positions and balances
+    
+    **Authentication**: All API requests require authentication via Bearer token.
+paths:
+  /v1/accounts:
+    get:
+      summary: List trading accounts
+      description: Retrieve a list of all trading accounts associated with the authenticated user.
+      tags:
+        - Accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        accountType:
+                          type: string
+                        balance:
+                          type: number
+                        currency:
+                          type: string
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+

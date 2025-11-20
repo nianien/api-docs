@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkapi_docs_portal=globalThis.webpackChunkapi_docs_portal||[]).push([[693],{2892:s=>{s.exports=JSON.parse('{"name":"docusaurus-plugin-redoc","id":"trading-positions"}')}}]);

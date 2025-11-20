@@ -32,7 +32,7 @@ Trading 域提供与账户交易相关的数据访问能力，包括：
 
 详细字段请参考：
 
-- [Positions 文档](./positions.md)
+- [Positions 文档](/docs/domains/trading/trading-positions)
 
 ---
 
@@ -46,7 +46,7 @@ Trading 域提供与账户交易相关的数据访问能力，包括：
 
 详细字段请参考：
 
-- [Trading History 文档](./history.md)
+- [Trading History 文档](/docs/domains/trading/trading-history)
 
 ---
 
@@ -76,6 +76,6 @@ Trading 域提供与账户交易相关的数据访问能力，包括：
 
 ## 4. 下一步阅读
 
-- [Positions：持仓与账户风险](./positions.md)
-- [Trading History：交易记录与报表](./history.md)
+- [Positions：持仓与账户风险](/docs/domains/trading/trading-positions)
+- [Trading History：交易记录与报表](/docs/domains/trading/trading-history)
 

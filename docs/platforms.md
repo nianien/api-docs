@@ -26,7 +26,7 @@ Zero Markets 支持多种交易平台（以实际情况为准）：
 
 - **REST API**: 标准 HTTP 接口
 - **FIX Protocol**: 专业交易接口
-- 查看 [API Reference](/api/trading) 获取详细信息
+- 查看 [API Reference](/api) 获取详细信息
 
 每种平台的下载地址、登陆方式与注意事项可以在官网或本开发者门户中找到。
 

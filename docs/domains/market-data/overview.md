@@ -26,7 +26,7 @@ Market Data 域提供：
 
 详见：
 
-- [WebSocket 行情文档](./websocket.md)
+- [WebSocket 行情文档](/docs/domains/market-data/market-data-websocket)
 
 ---
 
@@ -40,5 +40,5 @@ Market Data 域提供：
 
 详见：
 
-- [价格历史文档](./price-history.md)
+- [价格历史文档](/docs/domains/market-data/market-data-price-history)
 

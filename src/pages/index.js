@@ -229,7 +229,7 @@ export default function Home() {
               </p>
               <Link
                 className="button button--sm button--outline margin-top--sm"
-                to="/docs/domains/trading/overview"
+                to="/docs/domains/trading/trading-overview"
               >
                 查看 Trading 域文档 →
               </Link>
@@ -245,7 +245,7 @@ export default function Home() {
               </p>
               <Link
                 className="button button--sm button--outline margin-top--sm"
-                to="/docs/domains/market-data/overview"
+                to="/docs/domains/market-data/market-data-overview"
               >
                 查看行情文档 →
               </Link>

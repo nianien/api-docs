@@ -31,7 +31,7 @@ import Link from '@docusaurus/Link';
     <div className="api-card" style={{height: '100%'}}>
       <h3 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>📘 Trading</h3>
       <p style={{marginBottom: '1rem'}}>访问账户持仓、成交历史等核心交易数据。</p>
-      <Link className="button button--sm button--outline margin-top--sm" to="/docs/domains/trading/overview">
+      <Link className="button button--sm button--outline margin-top--sm" to="/docs/domains/trading/trading-overview">
         查看 Trading 域文档 →
       </Link>
     </div>
@@ -40,7 +40,7 @@ import Link from '@docusaurus/Link';
     <div className="api-card" style={{height: '100%'}}>
       <h3 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>📈 Market Data</h3>
       <p style={{marginBottom: '1rem'}}>通过 WebSocket 订阅实时行情，通过 REST 获取历史 K 线。</p>
-      <Link className="button button--sm button--outline margin-top--sm" to="/docs/domains/market-data/overview">
+      <Link className="button button--sm button--outline margin-top--sm" to="/docs/domains/market-data/market-data-overview">
         查看行情文档 →
       </Link>
     </div>

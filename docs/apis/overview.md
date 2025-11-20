@@ -7,33 +7,19 @@ title: API 服务总览
 
 以下列表会跟随 `static/openapi/*.yaml` 与 `docusaurus.config.js` 中的 `serviceSpecs` 同步更新，便于快速了解每个 API 的入口。
 
-## Price History
+## Trading APIs
 
-- **描述**：REST API allows you to retrieve historical price data.
-- **版本**：1.0.0
-- **标签**：Restful API, Price History
-- **文档**：[`/price-history`](/price-history)
+- **Positions API**：查询账户当前持仓与风险视图
+  - **文档**：[Positions API](/api/trading/positions)
+- **Trading History API**：查询账户历史交易记录、成交明细与报表数据
+  - **文档**：[Trading History API](/api/trading/history)
 
-## Market Data
+## Market Data APIs
 
-- **描述**：WebSocket API provides real-time market data updates.
-- **版本**：1.0.0
-- **标签**：WebSocket API, Market Data
-- **文档**：[`/market-data`](/market-data)
-
-## IB Portal
-
-- **描述**：Open API endpoints for retrieving referral code accounts, transaction history, and rebate history.
-- **版本**：1.0.0
-- **标签**：IB Portal API, IB Portal
-- **文档**：[`/ib-portal`](/ib-portal)
-
-## BlackArrow Positions
-
-- **描述**：REST API for getting BlackArrow positions.
-- **版本**：1.0.0
-- **标签**：Restful API, BlackArrow Positions
-- **文档**：[`/blackarrow-positions`](/blackarrow-positions)
+- **WebSocket API**：实时行情推送，支持多品种订阅
+  - **文档**：[Market Data WebSocket](/api/market-data/websocket)
+- **Price History API**：历史 K 线数据查询，支持多周期
+  - **文档**：[Price History API](/api/market-data/price-history)
 
 > 如需新增服务：在 `static/openapi` 放置新的 OpenAPI YAML，并在 `docusaurus.config.js` 的 `serviceSpecs` 数组中追加配置即可。
 

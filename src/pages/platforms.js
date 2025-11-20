@@ -74,7 +74,7 @@ export default function Platforms() {
         'Comprehensive documentation',
       ],
       downloadLinks: {
-        docs: '/api/trading',
+        docs: '/api',
         rest: '/docs/intro',
       },
       icon: '⚙️',

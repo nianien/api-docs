@@ -10,7 +10,7 @@ module.exports = {
       colors: {
         zm: {
           green: "#00C46B",      // 品牌主绿（明亮）
-          greenDark: "#006B3C",  // 深一点的交易绿
+          greenDark: "#0dac65",  // 深一点的交易绿
           bgDark: "#021713",     // 深色背景（类似你图里的深绿背景）
         },
       },

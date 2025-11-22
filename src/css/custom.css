@@ -231,6 +231,18 @@ html[data-theme='dark'] .redocusaurus .api-content .menu-content {
    Navbar API Reference 下拉菜单分组样式
    ================ */
 
+/* Navbar 下拉菜单分隔线 */
+.navbar-separator {
+  margin: 0.5rem 0;
+  border: none;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+html[data-theme='dark'] .navbar-separator {
+  border-top-color: rgba(148, 163, 184, 0.4);
+}
+
+/* API Reference 下拉菜单分隔线 */
 .api-dropdown-separator {
   margin: 4px 0;
   border: none;

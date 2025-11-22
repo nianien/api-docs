@@ -371,6 +371,7 @@ const config = {
         src: 'img/logo-3.png',
       },
       items: [
+        // 产品向导航（面向交易用户）
         {
           label: 'Markets',
           to: '/markets',
@@ -386,21 +387,42 @@ const config = {
           to: '/account-types',
           position: 'left',
         },
+        // 开发者中心（整合所有开发者资源）
         {
-          label: 'Docs',
-          type: 'docSidebar',
-          sidebarId: 'docsSidebar',
+          label: 'Developers',
           position: 'left',
+          items: [
+            {
+              label: '🚀 Quickstart',
+              to: '/docs/overview/intro',
+            },
+            {
+              type: 'html',
+              value: '<hr class="navbar-separator" />',
+            },
+            {
+              label: 'Guides',
+              to: '/docs/overview/intro',
+            },
+            {
+              label: 'SDK',
+              to: '/docs/integration/sdk',
+            },
+            {
+              type: 'html',
+              value: '<hr class="navbar-separator" />',
+            },
+            {
+              label: 'Changelog',
+              to: '/docs/changelog',
+            },
+          ],
         },
+        // API Reference 单独放在顶栏（保持下拉菜单）
         {
           label: 'API Reference',
           position: 'left',
           items: buildApiNavItems(), // ★ 自动按 domain 分组生成
-        },
-        {
-          label: 'SDK',
-          position: 'left',
-          to: '/docs/integration/sdk',
         },
         {
           href: 'https://zeromarkets.com',

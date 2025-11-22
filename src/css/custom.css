@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===========
-   全局品牌变量（Zero Markets 主题）
-   =========== */
+/* ================
+   Zero Markets 全局品牌变量
+   ================ */
 
 :root {
   /* 字体 */
@@ -32,6 +32,9 @@
 
   /* 代码块略微收一下字号 */
   --ifm-code-font-size: 90%;
+
+  /* 文档正文最大宽度 */
+  --zm-doc-max-width: 880px;
 }
 
 html[data-theme='dark'] {
@@ -43,13 +46,18 @@ html[data-theme='dark'] {
   --ifm-link-color: #33dea8;
 }
 
-/* ===========
-   导航栏 & Footer
-   =========== */
+/* ================
+   顶部导航 & Footer
+   ================ */
 
-/* 顶部导航轻微阴影 */
+/* 顶部导航轻微阴影，跟首页保持一致 */
 .navbar {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* 去掉 Docs/Redoc 页顶部额外空白，让视觉更紧凑 */
+.main-wrapper {
+  padding-top: 0;
 }
 
 /* Footer 字体稍微亮一点 */
@@ -61,17 +69,55 @@ html[data-theme='dark'] {
   font-weight: 600;
 }
 
-/* ===========
-   文档正文与侧边栏
-   =========== */
+/* ================
+   Docs 区域统一成"商务页面"风格
+   ================ */
+
+/* 整个文档页面背景与普通页一致 */
+.theme-doc-main {
+  background-color: var(--ifm-background-color);
+}
+
+/* Docs 主内容居中 + 最大宽度控制，类似普通营销页 */
+.theme-doc-markdown.markdown {
+  max-width: var(--zm-doc-max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* 文档正文行距舒展一点 */
-.markdown p {
+.theme-doc-markdown.markdown p {
   line-height: 1.7;
   font-size: 0.96rem;
 }
 
-/* 文档侧边栏背景：浅灰商务风 */
+/* 文档标题层级做一点区分，跟首页统一 */
+.theme-doc-markdown.markdown h1 {
+  font-size: 1.8rem;
+  font-weight: 650;
+  margin-bottom: 0.75rem;
+}
+
+.theme-doc-markdown.markdown h2 {
+  font-size: 1.35rem;
+  margin-top: 1.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.theme-doc-markdown.markdown h3 {
+  font-size: 1.1rem;
+  margin-top: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+
+/* 列表间距 */
+.theme-doc-markdown.markdown ul,
+.theme-doc-markdown.markdown ol {
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Docs 侧边栏背景：浅灰商务风 + 细边线，跟 API Sidebar 一致 */
 .theme-doc-sidebar-container {
   border-right: 1px solid rgba(15, 23, 42, 0.12);
   background-color: #f7f9fb;
@@ -82,16 +128,21 @@ html[data-theme='dark'] .theme-doc-sidebar-container {
   border-right-color: rgba(148, 163, 184, 0.4);
 }
 
-/* 当前选中的 Sidebar 项稍微强调一下 */
+/* 当前选中的 Docs Sidebar 项稍微强调一下 */
 .menu__link--active {
   font-weight: 600;
 }
 
-/* ===========
-   首页 / 卡片组件（Developer Portal 常用块）
-   =========== */
+/* 让 Docs 页面中间区域不要太贴边，左右有一点呼吸感 */
+.theme-doc-content {
+  padding-top: 1.25rem;
+  padding-bottom: 2rem;
+}
 
-/* 通用卡片：用于 Quick Start / Domain 卡片 */
+/* ================
+   通用卡片（首页 / Docs / 任意页面都可用）
+   ================ */
+
 .api-card {
   border-radius: 14px;
   border: 1px solid rgba(148, 163, 184, 0.35);
@@ -118,42 +169,54 @@ html[data-theme='dark'] .api-card {
   padding-inline: 1.6rem;
 }
 
-/* ===========
+/* ================
    Redocusaurus / Redoc 区域（API Reference 页）
-   =========== */
+   ================ */
 
+/* 整个 API 页背景和 Docs 一致 */
+.redocusaurus {
+  background-color: var(--ifm-background-color);
+}
+
+/* API 内容区域宽度对齐 Docs，居中 */
 .redocusaurus .api-content .redoc-wrap {
   max-width: 1160px;
   margin: 0 auto;
 }
 
-.redocusaurus .menu-content {
-  font-family: var(--ifm-font-family-base);
-}
-
-/* Redoc 主标题、副标题 */
-.redocusaurus h1 {
-  font-size: 1.6rem;
-  font-weight: 600;
-}
-
-.redocusaurus h2 {
-  font-size: 1.25rem;
-  margin-top: 1.8rem;
-}
-
-/* 左侧 API 菜单背景配合整体主题 */
+/* 左侧菜单字体、背景统一成 Zero Markets 风格 */
 .redocusaurus .api-content .menu-content {
   background-color: #f7f9fb;
+  font-family: var(--ifm-font-family-base);
 }
 
 html[data-theme='dark'] .redocusaurus .api-content .menu-content {
   background-color: #020712;
 }
 
-/* ===========
-   小工具类（可以按需用）
-   =========== */
+/* Redoc 主标题、副标题字号调整，像文档页一样 */
+.redocusaurus h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.redocusaurus h2 {
+  font-size: 1.25rem;
+  margin-top: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+
+/* Redoc 内的 code / 字体风格统一 */
+.redocusaurus code {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.85rem;
+}
+
+/* ================
+   小工具类（可选）
+   ================ */
 
 /* 文档页顶部的小提示条 */
 .zm-callout {

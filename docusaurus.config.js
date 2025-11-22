@@ -9,7 +9,7 @@ const repoName = 'api-docs';
 const siteUrl = `https://${repoOwner}.github.io`;
 const siteBaseUrl = '/api-docs/';
 
-// API Specs 配置 - 按方案 B 的域结构组织（用于导航栏）
+// API Specs 配置 
 const apiSpecs = {
   trading: [
     {
@@ -268,6 +268,11 @@ const config = {
               label,
             })),
           ],
+        },
+        {
+          label: 'SDK',
+          position: 'left',
+          to: '/docs/integration/sdk',
         },
         {
           href: 'https://zeromarkets.com',

@@ -1,6 +1,7 @@
 ---
 id: intro
-title: Zero Markets Developer Portal
+title: Introduction
+sidebar_label: Intro
 ---
 
 import Link from '@docusaurus/Link';
@@ -22,7 +23,7 @@ import Link from '@docusaurus/Link';
     <div className="api-card" style={{height: '100%'}}>
       <h3 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>🚀 Quick Start</h3>
       <p style={{marginBottom: '1rem'}}>从获取 API 凭证，到发出第一笔持仓查询或行情订阅。</p>
-      <Link className="button button--sm button--primary margin-top--sm" to="/docs/auth">
+      <Link className="button button--sm button--primary margin-top--sm" to="/docs/overview/authentication">
         了解认证方式 →
       </Link>
     </div>
@@ -31,8 +32,8 @@ import Link from '@docusaurus/Link';
     <div className="api-card" style={{height: '100%'}}>
       <h3 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>📘 Trading</h3>
       <p style={{marginBottom: '1rem'}}>访问账户持仓、成交历史等核心交易数据。</p>
-      <Link className="button button--sm button--outline margin-top--sm" to="/docs/domains/trading/trading-overview">
-        查看 Trading 域文档 →
+      <Link className="button button--sm button--outline margin-top--sm" to="/docs/trading/overview">
+        查看 Trading 文档 →
       </Link>
     </div>
   </div>
@@ -40,7 +41,7 @@ import Link from '@docusaurus/Link';
     <div className="api-card" style={{height: '100%'}}>
       <h3 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>📈 Market Data</h3>
       <p style={{marginBottom: '1rem'}}>通过 WebSocket 订阅实时行情，通过 REST 获取历史 K 线。</p>
-      <Link className="button button--sm button--outline margin-top--sm" to="/docs/domains/market-data/market-data-overview">
+      <Link className="button button--sm button--outline margin-top--sm" to="/docs/market-data/overview">
         查看行情文档 →
       </Link>
     </div>
@@ -56,7 +57,7 @@ import Link from '@docusaurus/Link';
     <div className="api-card">
       <h4 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>📚 文档分类</h4>
       <ul>
-        <li><strong>Overview</strong>：总览与统一认证（<Link to="/docs/intro">intro</Link>, <Link to="/docs/auth">auth</Link>）</li>
+        <li><strong>Overview</strong>：总览与统一认证（<Link to="/docs/overview/intro">intro</Link>, <Link to="/docs/overview/authentication">authentication</Link>, <Link to="/docs/overview/architecture">architecture</Link>）</li>
         <li><strong>Trading</strong>：持仓、成交历史等交易相关数据</li>
         <li><strong>Market Data</strong>：实时行情与历史 K 线</li>
         <li><strong>Integration</strong>：Sandbox 环境、Webhooks 设计、SDK 与示例代码</li>
@@ -83,3 +84,4 @@ import Link from '@docusaurus/Link';
 ## 技术支持
 
 如需技术支持，请联系：<Link href="mailto:api-support@zeromarkets.com">api-support@zeromarkets.com</Link>
+

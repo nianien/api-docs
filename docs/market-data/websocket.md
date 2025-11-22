@@ -1,8 +1,10 @@
 ---
-id: market-data-websocket
+id: websocket
 title: Realtime Market Data WebSocket
 sidebar_label: WebSocket
 ---
+
+import Link from '@docusaurus/Link';
 
 Market Data WebSocket 提供实时行情推送能力。  
 典型用途：
@@ -21,7 +23,7 @@ wss://api-sandbox.zeromarkets.com/gaia/ws/api/v1
 
 实盘环境地址请参考实际运维配置。
 
-建立连接时需要传入认证信息（参见 [Authentication 文档](/docs/auth)）。
+建立连接时需要传入认证信息（参见 [Authentication 文档](/docs/overview/authentication)）。
 
 ---
 
@@ -75,4 +77,12 @@ wss://api-sandbox.zeromarkets.com/gaia/ws/api/v1
 完整的 WebSocket API 文档、消息格式、订阅协议和错误处理，请查看：
 
 👉 **[Market Data WebSocket API 完整参考](/api/market-data/websocket)**
+
+---
+
+## 6. 相关文档
+
+- [Market Data Domain Overview](/docs/market-data/overview)
+- [Authentication & Security](/docs/overview/authentication)
+- [SDK & 示例代码](/docs/integration/sdk) - 包含 WebSocket 客户端示例
 

@@ -1,8 +1,10 @@
 ---
-id: trading-positions
+id: positions
 title: Positions & Account Risk
 sidebar_label: Positions
 ---
+
+import Link from '@docusaurus/Link';
 
 Positions API 提供账户当前头寸与风险视图。  
 典型用途：
@@ -85,4 +87,12 @@ Content-Type: application/json
 完整的 API 接口文档、请求参数、响应字段和错误码说明，请查看：
 
 👉 **[Positions API 完整参考](/api/trading/positions)**
+
+---
+
+## 6. 相关文档
+
+- [Trading Domain Overview](/docs/trading/overview)
+- [Authentication & Security](/docs/overview/authentication)
+- [SDK & 示例代码](/docs/integration/sdk)
 

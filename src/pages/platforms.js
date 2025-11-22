@@ -75,7 +75,7 @@ export default function Platforms() {
       ],
       downloadLinks: {
         docs: '/api',
-        rest: '/docs/intro',
+        rest: '/docs/overview/intro',
       },
       icon: '⚙️',
     },

@@ -106,7 +106,7 @@ export default function ApiIndex() {
                 首次使用 API？建议先阅读：
               </p>
               <ul>
-                <li><Link to="/docs/auth">认证与安全</Link> - 了解如何获取和使用 API 凭证</li>
+                <li><Link to="/docs/overview/authentication">认证与安全</Link> - 了解如何获取和使用 API 凭证</li>
                 <li><Link to="/docs/integration/sandbox">Sandbox 环境</Link> - 在测试环境中验证集成</li>
                 <li><Link to="/docs/integration/sdk">SDK 与示例代码</Link> - 查看代码示例和最佳实践</li>
               </ul>

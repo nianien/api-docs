@@ -65,7 +65,7 @@ export default function Home() {
               <div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap'}}>
                 <Link
                   className="button button--primary button--lg"
-                  to="/docs/intro"
+                  to="/docs/overview/intro"
                   style={{
                     backgroundColor: '#ffffff',
                     color: '#006B3C',
@@ -213,7 +213,7 @@ export default function Home() {
               </p>
               <Link
                 className="button button--sm button--primary margin-top--sm"
-                to="/docs/auth"
+                to="/docs/overview/authentication"
               >
                 了解认证方式 →
               </Link>
@@ -229,7 +229,7 @@ export default function Home() {
               </p>
               <Link
                 className="button button--sm button--outline margin-top--sm"
-                to="/docs/domains/trading/trading-overview"
+                to="/docs/trading/overview"
               >
                 查看 Trading 域文档 →
               </Link>
@@ -245,7 +245,7 @@ export default function Home() {
               </p>
               <Link
                 className="button button--sm button--outline margin-top--sm"
-                to="/docs/domains/market-data/market-data-overview"
+                to="/docs/market-data/overview"
               >
                 查看行情文档 →
               </Link>

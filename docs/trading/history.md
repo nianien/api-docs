@@ -1,8 +1,10 @@
 ---
-id: trading-history
+id: history
 title: Trading History & Reports
 sidebar_label: History
 ---
+
+import Link from '@docusaurus/Link';
 
 Trading History / IB Portal API 提供账户历史交易与报表相关数据。  
 典型用途：
@@ -92,4 +94,12 @@ Content-Type: application/json
 完整的 API 接口文档、请求参数、响应字段和错误码说明，请查看：
 
 👉 **[Trading History API 完整参考](/api/trading/history)**
+
+---
+
+## 6. 相关文档
+
+- [Trading Domain Overview](/docs/trading/overview)
+- [Authentication & Security](/docs/overview/authentication)
+- [SDK & 示例代码](/docs/integration/sdk)
 

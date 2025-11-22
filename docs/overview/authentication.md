@@ -1,6 +1,7 @@
 ---
-id: auth
+id: authentication
 title: Authentication & Security
+sidebar_label: Authentication
 ---
 
 Zero Markets API 统一使用 **Bearer Token** 进行认证。  
@@ -91,3 +92,11 @@ wss://api-sandbox.zeromarkets.com/gaia/ws/api/v1?token=<your_token>
 - 对不同业务/应用使用不同的 API 凭证，方便权限隔离与审计
 - 定期轮换凭证，并及时更新配置
 - 如果怀疑凭证泄露，立即在后台撤销该 token 并重新生成
+
+---
+
+## 6. 相关文档
+
+- [API Reference 概览](/api) - 查看所有 API 接口文档
+- [SDK & 示例代码](/docs/integration/sdk) - 查看认证相关的代码示例
+

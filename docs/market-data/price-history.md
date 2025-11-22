@@ -1,8 +1,10 @@
 ---
-id: market-data-price-history
+id: price-history
 title: Historical Price & Candles
 sidebar_label: Price History
 ---
+
+import Link from '@docusaurus/Link';
 
 Price History API 提供历史价格 / K 线数据。  
 典型用途：
@@ -73,4 +75,12 @@ Content-Type: application/json
 完整的 API 接口文档、请求参数、响应字段和周期说明，请查看：
 
 👉 **[Price History API 完整参考](/api/market-data/price-history)**
+
+---
+
+## 6. 相关文档
+
+- [Market Data Domain Overview](/docs/market-data/overview)
+- [Authentication & Security](/docs/overview/authentication)
+- [SDK & 示例代码](/docs/integration/sdk)
 

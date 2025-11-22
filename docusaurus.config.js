@@ -287,9 +287,9 @@ const config = {
         {
           title: 'Trading',
           items: [
-            {label: 'Trading Overview', to: '/docs/domains/trading/trading-overview'},
-            {label: 'Positions', to: '/docs/domains/trading/trading-positions'},
-            {label: 'History', to: '/docs/domains/trading/trading-history'},
+            {label: 'Trading Overview', to: '/docs/trading/overview'},
+            {label: 'Positions', to: '/docs/trading/positions'},
+            {label: 'History', to: '/docs/trading/history'},
           ],
         },
         {
@@ -297,12 +297,12 @@ const config = {
           items: [
             {
               label: 'Market Data Overview',
-              to: '/docs/domains/market-data/market-data-overview',
+              to: '/docs/market-data/overview',
             },
-            {label: 'WebSocket', to: '/docs/domains/market-data/market-data-websocket'},
+            {label: 'WebSocket', to: '/docs/market-data/websocket'},
             {
               label: 'Price History',
-              to: '/docs/domains/market-data/market-data-price-history',
+              to: '/docs/market-data/price-history',
             },
           ],
         },

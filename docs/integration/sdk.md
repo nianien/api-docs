@@ -22,7 +22,7 @@ sidebar_label: SDK
 
 - `baseUrl`：环境地址  
   - 例如：`https://api-sandbox.zeromarkets.com`
-- `token`：Bearer Token（参见 [Authentication 文档](/docs/auth)）
+- `token`：Bearer Token（参见 [Authentication 文档](/docs/overview/authentication)）
 - 通用请求方法：`get/post` 封装  
 - 错误处理 & 日志
 

@@ -9,24 +9,28 @@ const sidebars = {
       type: 'category',
       label: 'Overview',
       collapsible: false,
-      items: ['intro', 'auth'],
+      items: [
+        'overview/intro',
+        'overview/authentication',
+        'overview/architecture',
+      ],
     },
     {
       type: 'category',
       label: 'Trading',
       items: [
-        'domains/trading/trading-overview',
-        'domains/trading/trading-positions',
-        'domains/trading/trading-history',
+        'trading/overview',
+        'trading/positions',
+        'trading/history',
       ],
     },
     {
       type: 'category',
       label: 'Market Data',
       items: [
-        'domains/market-data/market-data-overview',
-        'domains/market-data/market-data-websocket',
-        'domains/market-data/market-data-price-history',
+        'market-data/overview',
+        'market-data/websocket',
+        'market-data/price-history',
       ],
     },
     {
@@ -44,22 +48,43 @@ const sidebars = {
       items: [
         {
           type: 'link',
-          label: 'Trading - Positions API',
+          label: 'API Overview',
+          href: '/api',
+        },
+        {
+          type: 'html',
+          value: '<hr style="margin: 0.5rem 0; border: none; border-top: 1px solid var(--ifm-color-emphasis-300);" />',
+        },
+        {
+          type: 'html',
+          value: '<span style="font-size: 0.75rem; color: var(--ifm-color-emphasis-600); padding: 0.25rem 0.75rem;">Trading</span>',
+        },
+        {
+          type: 'link',
+          label: 'Positions API',
           href: '/api/trading/positions',
         },
         {
           type: 'link',
-          label: 'Trading - History API',
+          label: 'History API',
           href: '/api/trading/history',
         },
         {
+          type: 'html',
+          value: '<hr style="margin: 0.5rem 0; border: none; border-top: 1px solid var(--ifm-color-emphasis-300);" />',
+        },
+        {
+          type: 'html',
+          value: '<span style="font-size: 0.75rem; color: var(--ifm-color-emphasis-600); padding: 0.25rem 0.75rem;">Market Data</span>',
+        },
+        {
           type: 'link',
-          label: 'Market Data - WebSocket API',
+          label: 'WebSocket API',
           href: '/api/market-data/websocket',
         },
         {
           type: 'link',
-          label: 'Market Data - Price History API',
+          label: 'Price History API',
           href: '/api/market-data/price-history',
         },
       ],

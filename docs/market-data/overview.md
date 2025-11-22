@@ -1,99 +1,58 @@
 ---
 id: overview
 title: Market Data Domain Overview
-sidebar_label: Overview
 ---
 
 import Link from '@docusaurus/Link';
 
 Market Data 域提供：
 
-- 实时行情（通过 WebSocket 推送）
-- 历史价格 / K 线（通过 REST 拉取）
+- 实时行情（WebSocket）
+- 历史价格 / K 线（REST）
 
-这两类接口可以组合使用：
+这两类接口适合结合使用：
 
-- WebSocket：驱动实时策略、前端展示、监控告警
-- 历史 REST：回测、绘制 K 线图、补齐缺失的历史段
-
----
-
-## 1. 实时行情（WebSocket）
-
-通过 WebSocket 接口订阅：
-
-- 外汇、指数、商品等产品的报价流
-- 订阅 / 退订机制
-- 心跳与重连机制
-
-详见：
-
-- [WebSocket 行情文档](/docs/market-data/websocket)
-- [Market Data WebSocket API 参考](/api/market-data/websocket)
+- WebSocket：驱动实时行情展示、策略执行、监控与告警  
+- Price History：回测、绘制图表、填补历史数据缺口
 
 ---
 
-## 2. 历史价格（REST）
+## 1. 相关 API 一览
 
-通过 REST 接口获取：
-
-- 不同周期的 K 线（例如 1m / 5m / 1h / 1d）
-- 指定时间范围内的 OHLCV 数据
-- countBack / limit 等参数配合使用
-
-详见：
-
-- [价格历史文档](/docs/market-data/price-history)
-- [Price History API 参考](/api/market-data/price-history)
+| 能力                      | 描述            | 文档入口                                            |
+|---------------------------|-----------------|-----------------------------------------------------|
+| Realtime WS API           | 实时行情推送    | [WebSocket API](/api/market-data/market_data) |
+| Price History REST API    | 历史价格 / K 线 | [Price History API](/api/market-data/price_history) |
 
 ---
 
-## 3. 使用场景
+## 2. 实时行情（WebSocket）
 
-### 3.1 实时策略
+- 使用 WebSocket 协议建立长连接  
+- 通过订阅 / 退订消息管理品种列表  
+- 支持多种频道：如 `tick`、`orderBook` 等（视实际实现而定）
 
-```
-WebSocket 订阅实时行情
-    ↓
-策略引擎计算信号
-    ↓
-触发交易决策
-```
-
-### 3.2 回测系统
-
-```
-Price History API 获取历史 K 线
-    ↓
-策略回测引擎
-    ↓
-性能评估与优化
-```
-
-### 3.3 前端展示
-
-```
-WebSocket 实时更新价格
-    ↓
-Price History 绘制历史 K 线图
-    ↓
-完整的行情展示界面
-```
+详见：[Realtime Market Data WebSocket](/docs/market-data/websocket)
 
 ---
 
-## 4. 下一步阅读
+## 3. 历史价格 / K 线（REST）
 
-- [WebSocket 实时行情](/docs/market-data/websocket) → [WebSocket API](/api/market-data/websocket)
-- [Price History 历史价格](/docs/market-data/price-history) → [Price History API](/api/market-data/price-history)
+- 支持多周期（如 `M1`, `M5`, `H1`, `D1` 等）  
+- 支持按时间范围或 `countBack` 等参数拉取  
+- 返回标准化的 OHLCV 数据
+
+详见：[Historical Price & Candles](/docs/market-data/price-history)
 
 ---
 
-## 5. API 参考
+## 4. 使用建议
 
-完整的 Market Data API 接口文档：
-
-- [API Reference 概览](/api#market-data-apis)
-- [Market Data WebSocket API](/api/market-data/websocket)
-- [Price History API](/api/market-data/price-history)
-
+- **策略系统**：
+  - 启动时通过 Price History 拉取一段历史数据
+  - 运行时通过 WS 接收实时 tick / quote 更新  
+- **图表系统**：
+  - 使用 Price History 作为数据源绘制 K 线
+  - 适当缓存数据，避免重复请求
+- **监控系统**：
+  - 可基于 WS 实现实时价格告警，如跳涨 / 跳水等

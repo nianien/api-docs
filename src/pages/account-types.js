@@ -138,7 +138,7 @@ export default function AccountTypes() {
                 </div>
                 <Link
                   className="button button--primary"
-                  to="/docs/accounts"
+                  to="/docs/products/accounts"
                   style={{width: '100%', textAlign: 'center'}}
                 >
                   Learn More
@@ -166,7 +166,7 @@ export default function AccountTypes() {
                 <Link className="button button--primary button--lg" href="https://zeromarkets.com/register">
                   Open Account
                 </Link>
-                <Link className="button button--outline button--lg" to="/docs/funding">
+                <Link className="button button--outline button--lg" to="/docs/products/funding">
                   Funding Options
                 </Link>
               </div>

@@ -1,33 +1,60 @@
 ---
 id: websocket
 title: Realtime Market Data WebSocket
-sidebar_label: WebSocket
 ---
 
 import Link from '@docusaurus/Link';
 
-Market Data WebSocket 提供实时行情推送能力。  
-典型用途：
+Realtime Market Data WebSocket 提供实时行情推送能力，适用于：
 
-- 实时行情展示
-- 高频 / 低延迟策略
-- 监控与告警系统
+- 前端行情展示  
+- 高频 / 低延迟策略执行  
+- 风险监控与价格告警  
+
+对应协议 / OpenAPI 文档：
+
+- [WebSocket API](/api/market-data/market_data)
 
 ---
 
-## 1. 连接地址
+## 1. 连接与认证
 
-```
+### 1.1 连接地址
+
+```text
 wss://api-sandbox.zeromarkets.com/gaia/ws/api/v1
 ```
 
-实盘环境地址请参考实际运维配置。
+实盘环境地址请以运维提供为准。
 
-建立连接时需要传入认证信息（参见 [Authentication 文档](/docs/overview/authentication)）。
+### 1.2 认证方式
+
+典型方式：在连接时通过 Header 携带 Bearer Token：
+
+```
+GET wss://api-sandbox.zeromarkets.com/gaia/ws/api/v1
+Authorization: Bearer <access_token>
+```
+
+Node.js 示例：
+
+```javascript
+import WebSocket from "ws";
+
+const ws = new WebSocket("wss://api-sandbox.zeromarkets.com/gaia/ws/api/v1", {
+  headers: {
+    Authorization: `Bearer <access_token>`,
+  },
+});
+```
+
+认证细节参考 [Authentication & Security](/docs/overview/authentication)。
 
 ---
 
-## 2. 订阅与消息格式
+## 2. 消息协议（示意）
+
+> 实际字段与格式请以 [API Reference](/api/market-data/market_data) 中的定义为准。
 
 ### 2.1 订阅请求示例
 
@@ -41,7 +68,21 @@ wss://api-sandbox.zeromarkets.com/gaia/ws/api/v1
 }
 ```
 
-### 2.2 推送消息示例
+- `op`：操作类型，例如 `subscribe` / `unsubscribe`
+- `args`：订阅参数数组
+
+### 2.2 退订请求示例
+
+```json
+{
+  "op": "unsubscribe",
+  "args": [
+    { "channel": "tick", "symbol": "EURUSD" }
+  ]
+}
+```
+
+### 2.3 tick 推送示例
 
 ```json
 {
@@ -53,36 +94,98 @@ wss://api-sandbox.zeromarkets.com/gaia/ws/api/v1
 }
 ```
 
-具体字段以 `market_data.yaml` 中定义的实际格式为准，这里仅展示典型结构。
+如支持更多频道（如 `depth`、`orderBook` 等），请参考 API Reference 中的详细定义。
 
 ---
 
-## 3. 心跳与重连
+## 3. 心跳、连接状态与重连
 
-- 服务端会定期发送心跳包（例如 `{"type": "ping"}`），客户端需回复 `{"type": "pong"}`
-- 连接断开时，请实现指数退避重连策略，并重新发送订阅请求
+### 3.1 心跳机制（示意）
+
+服务端可能会定期发送心跳包，例如：
+
+```json
+{ "type": "ping" }
+```
+
+客户端应回复：
+
+```json
+{ "type": "pong" }
+```
+
+或按协议要求回复自定义字段。
+
+### 3.2 重连建议
+
+- 监听 `close` 和 `error` 事件
+- 使用指数退避策略重连（例如 1s -> 2s -> 4s -> 8s）
+- 重连成功后重新发送订阅请求（基于本地缓存的订阅列表）
+
+Node.js 简易伪代码：
+
+```javascript
+function createMarketDataClient() {
+  let ws;
+  let reconnectDelay = 1000;
+  const subs = [];
+
+  function connect() {
+    ws = new WebSocket(WS_URL, { headers: { Authorization: `Bearer ${TOKEN}` } });
+
+    ws.on("open", () => {
+      reconnectDelay = 1000;
+      subs.forEach((msg) => ws.send(JSON.stringify(msg)));
+    });
+
+    ws.on("close", () => {
+      setTimeout(connect, reconnectDelay);
+      reconnectDelay = Math.min(reconnectDelay * 2, 30000);
+    });
+  }
+
+  return {
+    connect,
+    subscribeTick(symbol) {
+      const msg = { op: "subscribe", args: [{ channel: "tick", symbol }] };
+      subs.push(msg);
+      ws?.readyState === WebSocket.OPEN && ws.send(JSON.stringify(msg));
+    },
+  };
+}
+```
 
 ---
 
-## 4. 限流与并发
+## 4. 限流与订阅限制
 
-- 单个连接允许的订阅数量有限（例如 N 个 symbol）
-- 超过订阅数量或消息频率可能返回错误或者被断开
-- 如需大规模订阅，请联系技术支持评估专用通道或多连接方案
+典型限制（视实际实现而定）：
 
----
+- 每个连接可订阅的**最大 symbol 数量**有上限
+- 订阅频率和消息吞吐可能受到限流约束
+- 如需大规模订阅（上百 / 上千品种），建议：
+  - 使用多个连接进行拆分
+  - 或联系 Zero Markets 技术支持评估专用通道
 
-## 5. API 参考文档
-
-完整的 WebSocket API 文档、消息格式、订阅协议和错误处理，请查看：
-
-👉 **[Market Data WebSocket API 完整参考](/api/market-data/websocket)**
+当超过限制时，可能返回错误消息，或直接断开连接。
 
 ---
 
-## 6. 相关文档
+## 5. 客户端封装建议
 
-- [Market Data Domain Overview](/docs/market-data/overview)
-- [Authentication & Security](/docs/overview/authentication)
-- [SDK & 示例代码](/docs/integration/sdk) - 包含 WebSocket 客户端示例
+建议为 WebSocket 行情单独实现一个 `MarketDataWsClient`：
 
+- **统一处理**：
+  - 连接 / 重连
+  - 订阅 / 退订
+  - 心跳 / 掉线重连
+- **对外提供简化接口**：
+  - `subscribeTick(symbol: string)`
+  - `onTick(callback)`
+  - `onError(callback)`
+
+配合 [Historical Price & Candles](/docs/market-data/price-history)，可以构建完整的：
+
+- 冷启动历史数据
+- 实时更新行情
+- 回放和回测环境

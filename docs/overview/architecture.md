@@ -1,117 +1,103 @@
 ---
 id: architecture
-title: System Architecture
-sidebar_label: Architecture
+title: Architecture & Domains
 ---
 
 import Link from '@docusaurus/Link';
 
-本文档概述 Zero Markets API 的整体架构设计，帮助开发者理解系统组成和数据流向。
+Zero Markets 对外提供的 API 按照"领域（Domain）"划分，目前主要包括：
+
+- **Trading 域**：账户持仓、历史交易记录等
+- **Market Data 域**：实时行情、历史价格数据
+- **Integration 能力**：SDK、Sandbox、Webhook（规划中）
+
+本章节概览整体架构，帮助你在集成前建立清晰的心智模型。
 
 ---
 
-## 1. API 域划分
+## 1. 域与服务划分
 
-Zero Markets API 按业务域划分为：
+### 1.1 Trading 域
 
-### Trading 域
-- **职责**：账户、持仓、交易历史等交易相关数据
-- **主要接口**：
-  - Positions API：查询当前持仓与账户风险
-  - Trading History API：查询成交与返佣相关记录
-- **文档**：[Trading Domain Overview](/docs/trading/overview)
-- **API 参考**：[Trading APIs](/api#trading-apis)
+负责与你的账户和交易相关的数据：
 
-### Market Data 域
-- **职责**：实时行情与历史价格数据
-- **主要接口**：
-  - WebSocket API：实时行情推送
-  - Price History API：历史 K 线数据查询
-- **文档**：[Market Data Domain Overview](/docs/market-data/overview)
-- **API 参考**：[Market Data APIs](/api#market-data-apis)
+- 当前持仓与风险敞口（Positions）
+- 历史成交 / 交易记录（Trading History / IB Portal）
+
+对应主要 API：
+
+- `Positions API` → [/api/trading/ba_position](/api/trading/ba_position)  
+- `Trading History API` → [/api/trading/ib_portal_api](/api/trading/ib_portal_api)
+
+详见：
+
+- [Trading Overview](/docs/trading/overview)
 
 ---
 
-## 2. 数据流向
+### 1.2 Market Data 域
 
-### 2.1 实时数据流
+专注于价格数据：
 
-```
-Market Data WebSocket
-    ↓
-实时行情推送 (Tick / Quote)
-    ↓
-策略引擎 / 前端展示
-```
+- 实时行情（WebSocket）
+- 历史价格 / K 线（REST）
 
-### 2.2 交易数据流
+对应主要 API：
 
-```
-Trading REST API
-    ↓
-持仓查询 / 历史记录
-    ↓
-风控看板 / 报表系统
-```
+- `Realtime WS API` → [/api/market-data/market_data](/api/market-data/market_data)  
+- `Price History API` → [/api/market-data/price_history](/api/market-data/price_history)
 
-### 2.3 历史数据流
+详见：
 
-```
-Price History REST API
-    ↓
-历史 K 线数据
-    ↓
-回测系统 / K 线图表
-```
+- [Market Data Overview](/docs/market-data/overview)
 
 ---
 
-## 3. 环境与部署
+## 2. 环境与 Base URL
 
-### 3.1 环境类型
+典型部署方式（示例）：
 
-- **Sandbox**：测试环境，用于开发调试
-  - Base URL: `https://api-sandbox.zeromarkets.com`
-- **Live**：生产环境，连接真实账户
-  - Base URL: `https://api.zeromarkets.com`
+- Sandbox 环境  
+  - `https://api-sandbox.zeromarkets.com`
+- Live 环境  
+  - `https://api.zeromarkets.com`
 
-### 3.2 认证统一
+在此基础上，不同域有自己的路径前缀，例如：
 
-所有域使用统一的 Bearer Token 认证机制，详见：[Authentication & Security](/docs/overview/authentication)
+- Trading / Positions：`/blackarrow/api/v1/...`
+- Trading / History（IB Portal）：`/ib/api/v1/...`（示例）
+- Market Data WebSocket：`/gaia/ws/api/v1`
+- Price History：`/gaia/api/v1/price-history`
 
----
-
-## 4. 集成建议
-
-### 4.1 开发流程
-
-1. **Sandbox 环境验证**
-   - 在 Sandbox 中完成所有接口联调
-   - 验证认证、数据格式、错误处理
-   - 参考：[Sandbox 环境文档](/docs/integration/sandbox)
-
-2. **SDK 封装**
-   - 基于示例代码封装内部 SDK
-   - 统一错误处理、重试逻辑
-   - 参考：[SDK & 示例代码](/docs/integration/sdk)
-
-3. **生产环境迁移**
-   - 使用独立的 Live 环境凭证
-   - 小规模验证后再扩大规模
-   - 建立监控和告警机制
-
-### 4.2 最佳实践
-
-- **模块化设计**：按域拆分客户端（TradingClient / MarketDataClient）
-- **类型安全**：使用强类型封装响应数据
-- **错误处理**：统一处理 HTTP 状态码和业务错误码
-- **配置管理**：支持环境变量和配置文件
+> 实际路径与版本号请以 OpenAPI 文档为准：参见 [API Reference](/api)。
 
 ---
 
-## 5. 相关文档
+## 3. 典型集成架构
 
-- [Introduction](/docs/overview/intro) - 开发者入口
-- [Authentication & Security](/docs/overview/authentication) - 认证机制
-- [API Reference 概览](/api) - 所有 API 接口文档
+一个完整的对接通常包含：
 
+1. **服务端集成**
+   - 后端服务或策略引擎，通过 REST / WS 与 Zero Markets 交互
+   - 使用 SDK 或自封装客户端复用认证、错误处理逻辑
+
+2. **数据处理层**
+   - 将 Positions / History / Price History 等数据存入内部存储（DB / Data Warehouse）
+   - 供风控、报表、统计使用
+
+3. **前端 / 运维界面**
+   - 使用 Zero Markets 提供的数据构建内部看板：
+     - 风险看板
+     - IB / 客户报表
+     - 策略监控页面
+
+---
+
+## 4. 下一步
+
+建议你按以下顺序阅读：
+
+1. [Authentication & Security](/docs/overview/authentication)  
+2. [Trading Overview](/docs/trading/overview)  
+3. [Market Data Overview](/docs/market-data/overview)  
+4. [SDK & Examples](/docs/integration/sdk)

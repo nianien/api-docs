@@ -16,17 +16,22 @@ sidebar_label: SDK
 
 ---
 
-## 1. 基础配置与通用封装思路
+## 1. 通用封装思路
 
-无论哪种语言，推荐先抽象出一个**通用客户端配置层**，包括：
+推荐先抽象一个通用客户端：
 
-- `baseUrl`：环境地址  
-  - 例如：`https://api-sandbox.zeromarkets.com`
-- `token`：Bearer Token（参见 [Authentication 文档](/docs/overview/authentication)）
-- 通用请求方法：`get/post` 封装  
-- 错误处理 & 日志
+- `baseUrl`：环境地址，如 `https://api-sandbox.zeromarkets.com`  
+- `token`：Bearer Token（参见 [Authentication](/docs/overview/authentication)）  
+- 通用 `get` / `post` 方法  
+- 统一错误处理与日志
 
-典型模块划分：
+按"域"拆模块：
+
+- `TradingClient`：Positions / History  
+- `MarketDataClient`：Price History  
+- `MarketDataWsClient`：行情 WebSocket
+
+---
 
 - `TradingClient`：持仓 / 历史交易  
 - `MarketDataClient`：历史价格  

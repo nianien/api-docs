@@ -14,17 +14,17 @@ title: Changelog
 
 ### Added
 
-- Positions API 新增字段 `regulator`，用于标记监管归属（例如 `ASIC`, `FCA` 等）。
-- Price History API 支持新的周期枚举，例如 `M2`, `H2`（示例）。
+- Positions API 新增字段 `regulator`，用于标记监管归属。  
+- Price History API 增加新的周期枚举（示例：`M2`, `H2`）。
 
 ### Changed
 
-- Market Data WebSocket 增加心跳消息类型，`ping` / `pong` 行为更加明确。
-- Trading History 查询默认时间窗口调整为最近 3 个月。
+- Trading History 查询默认时间窗口调整为最近 3 个月。  
+- Market Data WebSocket 增加明确心跳机制文档说明。
 
 ### Deprecated
 
-- 某旧版查询接口标记为废弃（示例），推荐使用新的统一路径替代。
+- 某旧版查询接口标记为废弃，推荐使用统一路径替代。
 
 ---
 
@@ -34,6 +34,6 @@ title: Changelog
   - Positions API
   - Trading History / IB Portal API
 - 发布 Market Data 域基础能力：
-  - 实时行情 WebSocket API
-  - 历史价格 REST API
-- 搭建 Zero Markets Developer Portal（Docusaurus + Redoc）
+  - Realtime Market Data WebSocket API
+  - Price History REST API
+- 发布 Zero Markets Developer Portal（Docs + API Reference）

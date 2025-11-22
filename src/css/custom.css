@@ -226,3 +226,22 @@ html[data-theme='dark'] .redocusaurus .api-content .menu-content {
   background: rgba(0, 196, 107, 0.03);
   font-size: 0.9rem;
 }
+
+/* ================
+   Navbar API Reference 下拉菜单分组样式
+   ================ */
+
+.api-dropdown-separator {
+  margin: 4px 0;
+  border: none;
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.api-dropdown-group {
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.6;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+}

@@ -1,38 +1,42 @@
 ---
 id: positions
 title: Positions & Account Risk
-sidebar_label: Positions
 ---
 
 import Link from '@docusaurus/Link';
 
-Positions API 提供账户当前头寸与风险视图。  
+Positions API 提供账户当前头寸与风险视图。
+
 典型用途：
 
-- 构建内部风控看板
-- 给策略引擎提供「当前仓位」输入
+- 构建实时风险看板
+- 为策略引擎提供「当前持仓」输入
 - 统计多账户风险敞口
+
+对应 OpenAPI 文档：
+
+- [Positions API](/api/trading/ba_position)
 
 ---
 
-## 1. 请求概览
+## 1. 请求示例
 
-> 具体路径与参数以实际 OpenAPI 为准，这里只给出典型结构示意。
+> 实际路径与参数请以 OpenAPI 为准，这里给出典型调用结构。
 
 ```http
 GET /blackarrow/api/v1/positions
-Authorization: Bearer <token>
+Authorization: Bearer <access_token>
 Content-Type: application/json
 ```
 
 常见查询参数：
 
-- `accountId` / `subAccountId`
+- `accountId` / `subAccountId`：账户或子账户
 - 分页参数：`pageNo`, `pageSize`
 
 ---
 
-## 2. 响应结构示例
+## 2. 响应示例（简化）
 
 ```json
 {
@@ -59,40 +63,20 @@ Content-Type: application/json
 }
 ```
 
-关键字段解释可以按你实际 schema 展开（略）。
+具体字段含义请参考 API Reference 中的 Position 模型。
 
 ---
 
-## 3. 分页与过滤
+## 3. 分页与过滤建议
 
-- 页码参数：`pageNo`, `pageSize`
-- 建议合理控制 `pageSize`，避免一次性拉取过大数据集
-- 如需按品种、方向等过滤，可使用：
-  - `symbol`
-  - `side`（LONG / SHORT）
+- 控制 `pageSize` 在合理范围（如 50/100）
+- 多账户场景下建议按账户维度分页查询
+- 如果后续引入 Webhook / 推送，可使用 Positions 作为「状态兜底」，Webhook 作为增量更新
 
 ---
 
 ## 4. 使用建议
 
-- 若用于风控看板，推荐定期轮询（例如每 5 秒）或使用后续的推送机制（未来 Webhook/WS）
-- 若用于策略引擎，只在需要重新计算风险时拉取持仓即可，避免频繁拉取增加延迟与负载
-
-> 上面内容你可以根据 `ba_position.yaml` 的真实字段，把字段说明表补上。
-
----
-
-## 5. API 参考文档
-
-完整的 API 接口文档、请求参数、响应字段和错误码说明，请查看：
-
-👉 **[Positions API 完整参考](/api/trading/positions)**
-
----
-
-## 6. 相关文档
-
-- [Trading Domain Overview](/docs/trading/overview)
-- [Authentication & Security](/docs/overview/authentication)
-- [SDK & 示例代码](/docs/integration/sdk)
-
+- **风控看板**：周期性拉取全部持仓（如每 5–10 秒）
+- **策略引擎**：在启动 / 策略切换时获取一次当前持仓状态
+- **报表系统**：可以将某个时间点的 Positions 快照写入 Data Warehouse，用于事后分析

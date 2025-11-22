@@ -1,7 +1,6 @@
 ---
 id: intro
-title: Introduction
-sidebar_label: Intro
+title: Zero Markets Developer Portal
 ---
 
 import Link from '@docusaurus/Link';
@@ -9,79 +8,100 @@ import Link from '@docusaurus/Link';
 # Zero Markets Developer Portal
 
 欢迎来到 **Zero Markets 开发者文档站**。  
-这里是你连接 Zero Markets 交易与行情基础设施、接入全球市场的入口。
+这里是你接入 Zero Markets 交易与行情基础设施、构建自有交易系统与报表平台的统一入口。
 
-> 使用标准化的 REST 与 WebSocket API 获取账户、持仓、成交、行情与历史数据。  
-> **风险提示：** FX and CFDs trading involves a high risk of loss and may not be suitable for all investors.
+> 通过统一的 REST 与 WebSocket API，你可以访问账户持仓、交易历史、实时行情与历史价格数据，  
+> 用于构建量化策略、风控系统、报表及运营工具。  
+> FX and CFDs trading involves a high risk of loss and may not be suitable for all investors.
 
 ---
 
-## 快速入口
+## 核心能力一览
 
-<div className="row margin-top--md">
-  <div className="col col--4">
-    <div className="api-card" style={{height: '100%'}}>
-      <h3 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>🚀 Quick Start</h3>
-      <p style={{marginBottom: '1rem'}}>从获取 API 凭证，到发出第一笔持仓查询或行情订阅。</p>
-      <Link className="button button--sm button--primary margin-top--sm" to="/docs/overview/authentication">
-        了解认证方式 →
-      </Link>
-    </div>
+- **Trading APIs**  
+  - 当前持仓与风险视图（Positions）  
+  - 历史交易 / IB 报表数据（Trading History）
+
+- **Market Data APIs**  
+  - 实时行情 WebSocket  
+  - 历史价格 / K 线 REST
+
+- **Integration 工具**  
+  - SDK 示例（Python / Node.js / Java）  
+  - Sandbox / Demo 环境  
+  - 计划中的 Webhooks 能力
+
+---
+
+## 快速开始
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6 margin-top--md">
+
+  <div className="api-card">
+    <h3>1️⃣ 获取访问凭证</h3>
+    <p>在 Zero Markets 后台创建 API 凭证，获得访问 Token。</p>
+    <Link className="button button--sm button--primary margin-top--sm" to="/docs/overview/authentication">
+      查看认证方式
+    </Link>
   </div>
-  <div className="col col--4">
-    <div className="api-card" style={{height: '100%'}}>
-      <h3 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>📘 Trading</h3>
-      <p style={{marginBottom: '1rem'}}>访问账户持仓、成交历史等核心交易数据。</p>
-      <Link className="button button--sm button--outline margin-top--sm" to="/docs/trading/overview">
-        查看 Trading 文档 →
-      </Link>
-    </div>
+
+  <div className="api-card">
+    <h3>2️⃣ 调用第一个接口</h3>
+    <p>使用 Positions API 获取当前持仓，验证网络与权限配置。</p>
+    <Link className="button button--sm button--outline margin-top--sm" to="/api/trading/ba_position">
+      打开 Positions API
+    </Link>
   </div>
-  <div className="col col--4">
-    <div className="api-card" style={{height: '100%'}}>
-      <h3 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>📈 Market Data</h3>
-      <p style={{marginBottom: '1rem'}}>通过 WebSocket 订阅实时行情，通过 REST 获取历史 K 线。</p>
-      <Link className="button button--sm button--outline margin-top--sm" to="/docs/market-data/overview">
-        查看行情文档 →
-      </Link>
-    </div>
+
+  <div className="api-card">
+    <h3>3️⃣ 深入集成</h3>
+    <p>通过 SDK 与 Sandbox 环境集成到你的交易系统与报表平台。</p>
+    <Link className="button button--sm button--outline margin-top--sm" to="/docs/integration/sdk">
+      查看 SDK &amp; 示例代码
+    </Link>
   </div>
+
 </div>
 
 ---
 
-## 文档结构说明
+## 文档结构
 
-<div className="row margin-top--md">
-  <div className="col col--6">
-    <div className="api-card">
-      <h4 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>📚 文档分类</h4>
-      <ul>
-        <li><strong>Overview</strong>：总览与统一认证（<Link to="/docs/overview/intro">intro</Link>, <Link to="/docs/overview/authentication">authentication</Link>, <Link to="/docs/overview/architecture">architecture</Link>）</li>
-        <li><strong>Trading</strong>：持仓、成交历史等交易相关数据</li>
-        <li><strong>Market Data</strong>：实时行情与历史 K 线</li>
-        <li><strong>Integration</strong>：Sandbox 环境、Webhooks 设计、SDK 与示例代码</li>
-        <li><strong>Changelog</strong>：重要变更记录</li>
-      </ul>
-    </div>
-  </div>
-  <div className="col col--6">
-    <div className="api-card">
-      <h4 style={{color: 'var(--ifm-color-primary)', marginBottom: '0.75rem'}}>🔗 快速链接</h4>
-      <ul>
-        <li><Link to="/api">API Reference 概览</Link></li>
-        <li><Link to="/api/trading/positions">Positions API</Link></li>
-        <li><Link to="/api/trading/history">Trading History API</Link></li>
-        <li><Link to="/api/market-data/websocket">Market Data WebSocket</Link></li>
-        <li><Link to="/api/market-data/price-history">Price History API</Link></li>
-      </ul>
-    </div>
-  </div>
-</div>
+- **Overview**
+  - [Intro](/docs/overview/intro)：当前页面，总览与快速入口  
+  - [Authentication](/docs/overview/authentication)：认证与安全  
+  - [Architecture](/docs/overview/architecture)：域划分与环境说明  
+  - [Error Codes](/docs/overview/errors)：错误码与约定
+
+- **Trading**
+  - [Trading Overview](/docs/trading/overview)  
+  - [Positions](/docs/trading/positions)  
+  - [Trading History](/docs/trading/history)  
+
+- **Market Data**
+  - [Market Data Overview](/docs/market-data/overview)  
+  - [Realtime WS](/docs/market-data/websocket)  
+  - [Price History](/docs/market-data/price-history)  
+
+- **Integration**
+  - [SDK & Code Examples](/docs/integration/sdk)  
+  - [Sandbox](/docs/integration/sandbox)  
+  - [Webhooks (Planned)](/docs/integration/webhooks)  
+
+- **Changelog**
+  - [Changelog](/docs/changelog)：接口变更与版本记录
 
 ---
 
-## 技术支持
+## 支持与反馈
 
-如需技术支持，请联系：<Link href="mailto:api-support@zeromarkets.com">api-support@zeromarkets.com</Link>
+如需技术支持或商务合作，请联系：
 
+- 技术支持：`api-support@zeromarkets.com`  
+- 商务合作：`bd@zeromarkets.com`
+
+请在邮件中简要描述：
+
+- 使用的环境（Sandbox / Live）  
+- 使用的主要 API（Trading / Market Data）  
+- 问题描述、错误码、请求样例（如有）

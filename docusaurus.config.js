@@ -9,33 +9,68 @@ const repoName = 'api-docs';
 const siteUrl = `https://${repoOwner}.github.io`;
 const siteBaseUrl = '/api-docs/';
 
-// API Specs 配置 
-const apiSpecs = {
-  trading: [
-    {
-      id: 'trading-positions',
-      label: 'Positions API',
-      route: '/api/trading/positions',
-    },
-    {
-      id: 'trading-history',
-      label: 'History API',
-      route: '/api/trading/history',
-    },
-  ],
-  marketData: [
-    {
-      id: 'marketdata-ws',
-      label: 'Realtime WS API',
-      route: '/api/market-data/websocket',
-    },
-    {
-      id: 'price-history',
-      label: 'Price History API',
-      route: '/api/market-data/price-history',
-    },
-  ],
-};
+// 自动生成的 Redoc specs（通过 scripts/generate-redoc-specs.js 生成）
+const redocSpecs = require('./redoc-specs.json');
+
+// 按 domain 分组
+function groupByDomain(specs) {
+  const map = {};
+  for (const s of specs) {
+    if (!map[s.domain]) map[s.domain] = [];
+    map[s.domain].push(s);
+  }
+  // 每个 domain 里的 API 按文件名排序
+  Object.values(map).forEach((list) =>
+    list.sort((a, b) => a.name.localeCompare(b.name))
+  );
+  return map;
+}
+
+// domain 名称转 Title Case
+function toTitle(domain) {
+  // "market-data" -> "Market Data"
+  return domain
+    .split('-')
+    .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+    .join(' ');
+}
+
+// 自动生成下拉菜单 items
+function buildApiNavItems() {
+  const grouped = groupByDomain(redocSpecs);
+  const domains = Object.keys(grouped).sort(); // trading, market-data, ...
+
+  const items = [];
+
+  // 顶部的 API Overview
+  items.push({label: 'API Overview', to: '/api'});
+
+  domains.forEach((domain) => {
+    const list = grouped[domain];
+
+    // 每个域前插一条分割线
+    items.push({
+      type: 'html',
+      value: '<hr class="api-dropdown-separator" />',
+    });
+
+    // 域标题：用目录名自动转 TitleCase
+    items.push({
+      type: 'html',
+      value: `<div class="api-dropdown-group">${toTitle(domain)}</div>`,
+    });
+
+    // 该域下所有 API：label = 文件名（不带后缀）
+    list.forEach((s) => {
+      items.push({
+        label: s.label, // = name = 文件名，比如 ba_position
+        to: s.route, // /api/trading/ba_position
+      });
+    });
+  });
+
+  return items;
+}
 
 const config = {
   title: 'Zero Markets Developer Portal',
@@ -59,7 +94,7 @@ const config = {
   },
 
   customFields: {
-    apiSpecs,
+    redocSpecs,
   },
 
 
@@ -123,32 +158,11 @@ const config = {
     [
       'redocusaurus',
       {
-        specs: [
-          // Trading – Positions API
-          {
-            id: 'trading-positions',
-            spec: 'static/openapi/ba_position.yaml',
-            route: '/api/trading/positions',
-          },
-          // Trading – History API (IB Portal)
-          {
-            id: 'trading-history',
-            spec: 'static/openapi/ib_portal_api.yaml',
-            route: '/api/trading/history',
-          },
-          // Market Data – Realtime WS API
-          {
-            id: 'marketdata-ws',
-            spec: 'static/openapi/market_data.yaml',
-            route: '/api/market-data/websocket',
-          },
-          // Market Data – Price History API
-          {
-            id: 'price-history',
-            spec: 'static/openapi/price_history.yaml',
-            route: '/api/market-data/price-history',
-          },
-        ],
+        specs: redocSpecs.map((s) => ({
+          id: s.id,
+          spec: `static/${s.spec}`,
+          route: s.route,
+        })),
         theme: {
           primaryColor: '#00C46B',
           options: {
@@ -236,38 +250,7 @@ const config = {
         {
           label: 'API Reference',
           position: 'left',
-          items: [
-            {
-              label: 'API Overview',
-              to: '/api',
-            },
-            {
-              type: 'html',
-              value: '<hr style="margin: 0.5rem 0; border: none; border-top: 1px solid var(--ifm-color-emphasis-300);" />',
-            },
-            {
-              type: 'html',
-              value: '<span style="font-size: 0.75rem; color: var(--ifm-color-emphasis-600); padding: 0.25rem 0.75rem;">Trading</span>',
-            },
-            // Trading APIs
-            ...apiSpecs.trading.map(({route, label}) => ({
-              to: route,
-              label,
-            })),
-            {
-              type: 'html',
-              value: '<hr style="margin: 0.5rem 0; border: none; border-top: 1px solid var(--ifm-color-emphasis-300);" />',
-            },
-            {
-              type: 'html',
-              value: '<span style="font-size: 0.75rem; color: var(--ifm-color-emphasis-600); padding: 0.25rem 0.75rem;">Market Data</span>',
-            },
-            // Market Data APIs
-            ...apiSpecs.marketData.map(({route, label}) => ({
-              to: route,
-              label,
-            })),
-          ],
+          items: buildApiNavItems(), // ★ 自动按 domain 分组生成
         },
         {
           label: 'SDK',

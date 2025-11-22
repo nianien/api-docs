@@ -1,10 +1,15 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
-const specs = require("../../../redoc-specs.json");
+// 从 docusaurus.config.js 的 customFields 中获取 specs
+function useRedocSpecs() {
+  const {siteConfig} = useDocusaurusContext();
+  return siteConfig.customFields.redocSpecs || [];
+}
 
-function groupByDomain() {
+function groupByDomain(specs) {
   const map = {};
   for (const s of specs) {
     if (!map[s.domain]) map[s.domain] = [];
@@ -24,7 +29,8 @@ function toTitle(domain) {
 }
 
 export default function ApiOverviewPage() {
-  const grouped = groupByDomain();
+  const specs = useRedocSpecs();
+  const grouped = groupByDomain(specs);
   const domains = Object.keys(grouped).sort();
 
   return (

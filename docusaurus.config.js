@@ -9,8 +9,153 @@ const repoName = 'api-docs';
 const siteUrl = `https://${repoOwner}.github.io`;
 const siteBaseUrl = '/api-docs/';
 
-// 自动生成的 Redoc specs（通过 scripts/generate-redoc-specs.js 生成）
-const redocSpecs = require('./redoc-specs.json');
+// 动态扫描 OpenAPI 文件，生成 Redoc specs（无需中间 JSON 文件）
+function scanRedocSpecs() {
+  const fs = require('fs');
+  const path = require('path');
+  const openapiDir = path.join(__dirname, 'static', 'openapi');
+  
+  if (!fs.existsSync(openapiDir)) {
+    return [];
+  }
+  
+  function walk(dir) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    let files = [];
+    
+    for (const e of entries) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) {
+        files = files.concat(walk(full));
+      } else if (e.isFile() && /\.ya?ml$/i.test(e.name)) {
+        files.push(full);
+      }
+    }
+    return files;
+  }
+  
+  function normalizePath(p) {
+    return p.replace(/\\/g, '/');
+  }
+  
+  const allFiles = walk(openapiDir);
+  
+  return allFiles
+    .sort()
+    .map((fullPath) => {
+      const relPath = normalizePath(path.relative(openapiDir, fullPath));
+      const withoutExt = relPath.replace(/\.ya?ml$/i, '');
+      
+      const parts = withoutExt.split('/');
+      const domain = parts[0];
+      const name = parts[parts.length - 1];
+      
+      return {
+        id: `${domain}-${name}`,
+        spec: `openapi/${relPath}`,
+        route: `/api/${withoutExt}`,
+        domain,
+        name,
+        label: name,
+      };
+    });
+}
+
+const redocSpecs = scanRedocSpecs();
+
+// 自动生成 Footer 链接（从 docs/ 目录结构生成）
+function buildFooterLinks() {
+  const fs = require('fs');
+  const path = require('path');
+  const docsDir = path.join(__dirname, 'docs');
+  
+  // 需要显示在 footer 的目录（按 position 排序）
+  const footerCategories = ['trading', 'market-data', 'integration'];
+  
+  const links = [];
+  
+  footerCategories.forEach((categoryName) => {
+    const categoryDir = path.join(docsDir, categoryName);
+    if (!fs.existsSync(categoryDir)) return;
+    
+    // 读取 _category_.json 获取 label
+    const categoryFile = path.join(categoryDir, '_category_.json');
+    let categoryLabel = categoryName;
+    if (fs.existsSync(categoryFile)) {
+      const categoryData = JSON.parse(fs.readFileSync(categoryFile, 'utf8'));
+      categoryLabel = categoryData.label || categoryName;
+    }
+    
+    // 扫描该目录下的 .md 文件
+    const items = [];
+    const files = fs.readdirSync(categoryDir);
+    
+    files
+      .filter((f) => f.endsWith('.md') && f !== '_category_.json')
+      .sort()
+      .forEach((file) => {
+        const filePath = path.join(categoryDir, file);
+        const content = fs.readFileSync(filePath, 'utf8');
+        
+        // 提取 frontmatter 中的 title
+        const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+        let title = file.replace(/\.md$/, '');
+        let docId = title;
+        
+        if (frontmatterMatch) {
+          const frontmatter = frontmatterMatch[1];
+          const titleMatch = frontmatter.match(/^title:\s*(.+)$/m);
+          const idMatch = frontmatter.match(/^id:\s*(.+)$/m);
+          
+          if (titleMatch) {
+            title = titleMatch[1].trim();
+          }
+          if (idMatch) {
+            docId = idMatch[1].trim();
+          }
+        }
+        
+        items.push({
+          label: title,
+          to: `/docs/${categoryName}/${docId}`,
+        });
+      });
+    
+    // 特殊处理：Integration 分类需要添加根目录的 changelog
+    if (categoryName === 'integration') {
+      const changelogPath = path.join(docsDir, 'changelog.md');
+      if (fs.existsSync(changelogPath)) {
+        const changelogContent = fs.readFileSync(changelogPath, 'utf8');
+        const frontmatterMatch = changelogContent.match(/^---\n([\s\S]*?)\n---/);
+        let changelogTitle = 'Changelog';
+        let changelogId = 'changelog';
+        
+        if (frontmatterMatch) {
+          const frontmatter = frontmatterMatch[1];
+          const titleMatch = frontmatter.match(/^title:\s*(.+)$/m);
+          const idMatch = frontmatter.match(/^id:\s*(.+)$/m);
+          
+          if (titleMatch) changelogTitle = titleMatch[1].trim();
+          if (idMatch) changelogId = idMatch[1].trim();
+        }
+        
+        items.push({
+          label: changelogTitle,
+          to: `/docs/${changelogId}`,
+        });
+      }
+    }
+    
+    if (items.length > 0) {
+      links.push({
+        title: categoryLabel,
+        items: items,
+      });
+    }
+  });
+  
+  return links;
+}
 
 // 按 domain 分组
 function groupByDomain(specs) {
@@ -160,8 +305,8 @@ const config = {
       {
         specs: redocSpecs.map((s) => ({
           id: s.id,
-          spec: `static/${s.spec}`,
-          route: s.route,
+          spec: `static/${s.spec}`, // static/openapi/trading/ba_position.yaml
+          route: s.route, // /api/trading/ba_position
         })),
         theme: {
           primaryColor: '#00C46B',
@@ -266,38 +411,7 @@ const config = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Trading',
-          items: [
-            {label: 'Trading Overview', to: '/docs/trading/overview'},
-            {label: 'Positions', to: '/docs/trading/positions'},
-            {label: 'History', to: '/docs/trading/history'},
-          ],
-        },
-        {
-          title: 'Market Data',
-          items: [
-            {
-              label: 'Market Data Overview',
-              to: '/docs/market-data/overview',
-            },
-            {label: 'WebSocket', to: '/docs/market-data/websocket'},
-            {
-              label: 'Price History',
-              to: '/docs/market-data/price-history',
-            },
-          ],
-        },
-        {
-          title: 'Integration',
-          items: [
-            {label: 'Sandbox', to: '/docs/integration/sandbox'},
-            {label: 'SDK', to: '/docs/integration/sdk'},
-            {label: 'Changelog', to: '/docs/changelog'},
-          ],
-        },
-      ],
+      links: buildFooterLinks(), // ★ 自动从 docs/ 目录结构生成
       copyright:
         '© ' +
         new Date().getFullYear() +

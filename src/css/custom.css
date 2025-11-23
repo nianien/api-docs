@@ -2,115 +2,380 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ================
-   Zero Markets 全局品牌变量
-   ================ */
+/* =========================================================
+   Zero Markets – Unified Developer Portal Theme
+   一份样式统一：首页 + Docs + Sidebar + Redoc
+========================================================= */
+
+/* ---------- 1. Design Tokens ---------- */
 
 :root {
-  /* 字体 */
-  --ifm-font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    system-ui, sans-serif;
-  --ifm-heading-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    system-ui, sans-serif;
+  --zm-primary: #00a86b;
+  --zm-primary-soft: rgba(0, 168, 107, 0.08);
+  --zm-primary-soft-2: rgba(0, 197, 122, 0.10);
 
-  /* 主配色：Zero Markets 绿 */
-  --ifm-color-primary: #00c46b;
-  --ifm-color-primary-dark: #009a55;
-  --ifm-color-primary-darker: #007c45;
-  --ifm-color-primary-light: #33d18a;
-  --ifm-color-primary-lighter: #66dea8;
+  --zm-text-main: #0f172a;
+  --zm-text-secondary: #4b5563;
+  --zm-text-muted: #6b7280;
 
-  /* 背景与导航、页脚 */
-  --ifm-navbar-background-color: #021713;   /* 顶部深绿 */
-  --ifm-footer-background-color: #010d0a;   /* 底部更暗一点 */
-  --ifm-background-color: #ffffff;
-  --ifm-background-surface-color: #ffffff;
+  --zm-bg-page: #f5f7fb;
+  --zm-bg-elevated: #ffffff;
+  --zm-bg-sidebar: rgba(245, 247, 250, 0.95);
 
-  /* 链接颜色 */
-  --ifm-link-color: #00c46b;
+  --zm-border-subtle: rgba(15, 23, 42, 0.08);
+  --zm-shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.06);
+  --zm-radius-lg: 16px;
+  --zm-radius-pill: 999px;
+
+  /* Docusaurus 兼容变量 */
+  --ifm-font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --ifm-heading-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --ifm-color-primary: #00a86b;
+  --ifm-link-color: #00a86b;
   --ifm-link-hover-decoration: none;
-
-  /* 代码块略微收一下字号 */
   --ifm-code-font-size: 90%;
-
-  /* 文档正文最大宽度 */
   --zm-doc-max-width: 880px;
 }
 
+/* 可选：如果你不打算兼容暗色模式，直接强制 light */
 html[data-theme='dark'] {
-  --ifm-color-primary: #33dea8;
-  --ifm-navbar-background-color: #010d0a;
-  --ifm-footer-background-color: #010d0a;
-  --ifm-background-color: #020712;
-  --ifm-background-surface-color: #020712;
-  --ifm-link-color: #33dea8;
+  --ifm-background-color: var(--zm-bg-page);
+  --ifm-font-color-base: var(--zm-text-main);
 }
 
-/* ================
-   顶部导航 & Footer
-   ================ */
+/* 全站背景 */
+body {
+  background:
+    radial-gradient(circle at 0% 0%, var(--zm-primary-soft-2), transparent 55%),
+    radial-gradient(circle at 100% 0%, var(--zm-primary-soft-2), transparent 55%),
+    var(--zm-bg-page) !important;
+  color: var(--zm-text-main);
+}
 
-/* 白底商务风 Navbar */
+/* Docusaurus 主 wrapper */
+.main-wrapper {
+  background: transparent;
+}
+
+/* ---------- 2. Navbar（首页 & Docs 同一套） ---------- */
+
 .navbar {
   background: #ffffff !important;
-  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  border-bottom: 4px solid var(--zm-primary) !important;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
 }
 
 .navbar__brand,
 .navbar__item,
 .navbar__link {
-  color: #111 !important;
+  color: #111827 !important;
   font-weight: 500;
 }
 
-.navbar__item:hover,
-.navbar__link:hover {
-  color: #00a86b !important;
+.navbar__link:hover,
+.navbar__item:hover {
+  color: var(--zm-primary) !important;
 }
 
 .navbar__item--active .navbar__link {
-  color: #00a86b !important;
+  color: var(--zm-primary) !important;
   font-weight: 600;
 }
 
-/* 去掉 Docs/Redoc 页顶部额外空白，让视觉更紧凑 */
-.main-wrapper {
-  padding-top: 0;
+/* Main Website 按钮（右上角） */
+.navbar__item.button--outline a,
+.navbar__link.button--outline {
+  border: 1px solid var(--zm-primary);
+  color: var(--zm-primary) !important;
+  padding: 4px 10px;
+  border-radius: 6px;
 }
 
-/* Footer 字体稍微亮一点 */
-.footer {
-  color: #e5e7eb;
+.navbar__item.button--outline a:hover {
+  background: var(--zm-primary);
+  color: #fff !important;
 }
 
-.footer__title {
+/* Docs Layout 有 wrapper，会挤压 navbar 的边框，这里强制重写 */
+.theme-doc-page .navbar {
+  border-bottom-width: 4px !important;
+  border-bottom-color: var(--zm-primary) !important;
+  border-bottom-style: solid !important;
+}
+
+/* ---------- 3. Homepage（Hero + Feature + HIW） ---------- */
+
+/* Hero 区 */
+.zm-hero-section {
+  padding: 4.5rem 0 3.5rem;
+  background:
+    radial-gradient(circle at 0% 0%, var(--zm-primary-soft-2), transparent 55%),
+    radial-gradient(circle at 100% 0%, var(--zm-primary-soft-2), transparent 55%),
+    #ffffff;
+}
+
+.zm-hero-container {
+  max-width: 720px;
+  text-align: center;
+}
+
+.zm-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 11px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: var(--zm-radius-pill);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.9);
+  margin-bottom: 12px;
+  color: var(--zm-text-muted);
 }
 
-/* ================
-   Docs 区域统一成"商务页面"风格
-   ================ */
+.zm-hero-title {
+  font-size: 2.4rem;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--zm-text-main);
+}
 
-/* 整个文档页面背景与普通页一致 */
+.zm-hero-subtitle {
+  font-size: 1.02rem;
+  color: var(--zm-text-secondary);
+  margin: 0 auto 1.8rem;
+  max-width: 620px;
+}
+
+.zm-hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.zm-btn-primary {
+  background: var(--zm-primary);
+  border-radius: var(--zm-radius-pill);
+  padding: 0.55rem 1.4rem;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.zm-btn-primary:hover {
+  background: #00925e;
+}
+
+.zm-btn-secondary {
+  border-radius: var(--zm-radius-pill) !important;
+  padding: 0.55rem 1.4rem !important;
+  border-color: rgba(15, 23, 42, 0.18) !important;
+  color: #111827 !important;
+  font-weight: 500;
+}
+
+.zm-btn-secondary:hover {
+  background: rgba(15, 23, 42, 0.05) !important;
+  border-color: rgba(15, 23, 42, 0.3) !important;
+}
+
+.zm-hero-meta {
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--zm-text-muted);
+}
+
+/* Feature cards */
+.zm-feature-section {
+  padding: 1.5rem 0 3rem;
+}
+
+.zm-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+@media (max-width: 960px) {
+  .zm-feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.zm-feature-card {
+  background: var(--zm-bg-elevated);
+  border-radius: var(--zm-radius-lg);
+  padding: 1.5rem 1.4rem;
+  border: 1px solid var(--zm-border-subtle);
+  box-shadow: var(--zm-shadow-soft);
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.zm-feature-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 168, 107, 0.28);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.14);
+}
+
+.zm-feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--zm-radius-pill);
+  background: var(--zm-primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.zm-emoji {
+  font-size: 1.1rem;
+}
+
+.zm-feature-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--zm-text-main);
+  margin-bottom: 0.4rem;
+}
+
+.zm-feature-desc {
+  font-size: 0.95rem;
+  color: var(--zm-text-secondary);
+  margin-bottom: 0.9rem;
+}
+
+.zm-feature-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--zm-primary);
+  text-decoration: none;
+}
+
+.zm-feature-link:hover {
+  text-decoration: underline;
+}
+
+/* How it works */
+.zm-hiw-section {
+  padding: 3rem 0 3.5rem;
+  background: #f7fafc;
+}
+
+.zm-hiw-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--zm-text-main);
+}
+
+.zm-hiw-subtitle {
+  text-align: center;
+  font-size: 0.98rem;
+  color: var(--zm-text-muted);
+  margin-bottom: 2rem;
+}
+
+.zm-hiw-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+@media (max-width: 960px) {
+  .zm-hiw-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+.zm-hiw-step {
+  background: var(--zm-bg-elevated);
+  border-radius: var(--zm-radius-lg);
+  padding: 1.4rem 1.3rem 1.35rem;
+  border: 1px solid var(--zm-border-subtle);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+.zm-hiw-step-index {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--zm-primary);
+  margin-bottom: 0.4rem;
+}
+
+.zm-hiw-step h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--zm-text-main);
+  margin-bottom: 0.35rem;
+}
+
+.zm-hiw-step p {
+  font-size: 0.9rem;
+  color: var(--zm-text-secondary);
+}
+
+/* ---------- 4. Docs Layout（与首页统一） ---------- */
+
+/* Doc 页面整体背景做成和首页类似的浅绿+灰 */
+.theme-doc-page {
+  background:
+    radial-gradient(circle at 0% 0%, var(--zm-primary-soft-2), transparent 55%),
+    radial-gradient(circle at 100% 0%, var(--zm-primary-soft-2), transparent 55%),
+    var(--zm-bg-page);
+}
+
+/* 左侧 Sidebar */
+.theme-doc-sidebar-container {
+  background: var(--zm-bg-sidebar) !important;
+  border-right: 1px solid var(--zm-border-subtle);
+}
+
+/* Sidebar 一级分类 */
+.theme-doc-sidebar-item-category .menu__link--sublist {
+  font-weight: 600;
+  color: var(--zm-text-main);
+}
+
+/* Sidebar 当前项高亮 */
+.menu__link--active,
+.menu__link--active:hover {
+  color: var(--zm-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* 文档内容：白色卡片 */
 .theme-doc-main {
-  background-color: var(--ifm-background-color);
+  padding-top: 1.5rem;
+  padding-bottom: 2.5rem;
 }
 
-/* Docs 主内容居中 + 最大宽度控制，类似普通营销页 */
-.theme-doc-markdown.markdown {
-  max-width: var(--zm-doc-max-width);
+.theme-doc-markdown {
+  background: var(--zm-bg-elevated);
+  border-radius: var(--zm-radius-lg);
+  padding: 2rem 2.2rem;
+  border: 1px solid var(--zm-border-subtle);
+  box-shadow: var(--zm-shadow-soft);
+  max-width: 860px;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* 文档正文行距舒展一点 */
+/* 文档正文行距 */
 .theme-doc-markdown.markdown p {
   line-height: 1.7;
   font-size: 0.96rem;
 }
 
-/* 文档标题层级做一点区分，跟首页统一 */
+/* 文档标题层级 */
 .theme-doc-markdown.markdown h1 {
   font-size: 1.8rem;
   font-weight: 650;
@@ -136,84 +401,69 @@ html[data-theme='dark'] {
   margin-bottom: 0.5rem;
 }
 
-/* Docs 侧边栏背景：浅灰商务风 + 细边线，跟 API Sidebar 一致 */
-.theme-doc-sidebar-container {
-  border-right: 1px solid rgba(15, 23, 42, 0.12);
-  background-color: #f7f9fb;
+/* Breadcrumb / 标题微调 */
+.breadcrumbs__link {
+  color: var(--zm-text-muted);
 }
 
-html[data-theme='dark'] .theme-doc-sidebar-container {
-  background-color: #020712;
-  border-right-color: rgba(148, 163, 184, 0.4);
-}
-
-/* 当前选中的 Docs Sidebar 项稍微强调一下 */
-.menu__link--active {
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--zm-primary);
   font-weight: 600;
 }
 
-/* 让 Docs 页面中间区域不要太贴边，左右有一点呼吸感 */
-.theme-doc-content {
-  padding-top: 1.25rem;
-  padding-bottom: 2rem;
+/* 右侧 TOC */
+.theme-doc-toc-desktop {
+  border-left: 1px solid var(--zm-border-subtle);
+  padding-left: 1.2rem;
+  background: transparent;
 }
 
-/* ================
-   通用卡片（首页 / Docs / 任意页面都可用）
-   ================ */
-
-.api-card {
-  border-radius: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  padding: 1.25rem 1.5rem;
-  background: #ffffff;
-  transition: box-shadow 0.15s ease, transform 0.15s ease,
-    border-color 0.15s ease;
+.table-of-contents__link--active {
+  color: var(--zm-primary) !important;
 }
 
-.api-card:hover {
-  border-color: rgba(0, 196, 107, 0.75);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
-  transform: translateY(-2px);
+/* 移动端适配 */
+@media (max-width: 996px) {
+  .theme-doc-markdown {
+    border-radius: 0;
+    padding: 1.2rem 1.1rem;
+    box-shadow: none;
+    border: none;
+  }
 }
 
-html[data-theme='dark'] .api-card {
-  background: #020712;
-  border-color: rgba(51, 65, 85, 0.9);
+/* ---------- 5. API Reference（Redoc / Redocusaurus） ---------- */
+
+/* 主容器背景和 Docs 一致 */
+.redoc-wrap,
+.redocusaurus-Redoc {
+  background:
+    radial-gradient(circle at 0% 0%, var(--zm-primary-soft-2), transparent 55%),
+    radial-gradient(circle at 100% 0%, var(--zm-primary-soft-2), transparent 55%),
+    var(--zm-bg-page) !important;
 }
 
-/* 用在首页 hero 那种主按钮 */
-.button.button--primary {
-  border-radius: 999px;
-  padding-inline: 1.6rem;
+/* Redoc 左侧菜单 */
+.redoc-wrap .menu-content,
+.redocusaurus-Redoc .menu-content {
+  background: var(--zm-bg-sidebar) !important;
 }
 
-/* ================
-   Redocusaurus / Redoc 区域（API Reference 页）
-   ================ */
-
-/* 整个 API 页背景和 Docs 一致 */
-.redocusaurus {
-  background-color: var(--ifm-background-color);
+/* Redoc 中选中的 tag / operation 颜色 */
+.redoc-wrap .menu-item-active > a,
+.redocusaurus-Redoc .menu-item-active > a {
+  color: var(--zm-primary) !important;
 }
 
-/* API 内容区域宽度对齐 Docs，居中 */
-.redocusaurus .api-content .redoc-wrap {
-  max-width: 1160px;
-  margin: 0 auto;
+/* API content 卡片化一点 */
+.redoc-wrap .api-content,
+.redocusaurus-Redoc .api-content {
+  background: var(--zm-bg-elevated);
+  border-radius: var(--zm-radius-lg);
+  box-shadow: var(--zm-shadow-soft);
 }
 
-/* 左侧菜单字体、背景统一成 Zero Markets 风格 */
-.redocusaurus .api-content .menu-content {
-  background-color: #f7f9fb;
-  font-family: var(--ifm-font-family-base);
-}
-
-html[data-theme='dark'] .redocusaurus .api-content .menu-content {
-  background-color: #020712;
-}
-
-/* Redoc 主标题、副标题字号调整，像文档页一样 */
+/* Redoc 主标题、副标题字号调整 */
 .redocusaurus h1 {
   font-size: 1.6rem;
   font-weight: 600;
@@ -233,9 +483,36 @@ html[data-theme='dark'] .redocusaurus .api-content .menu-content {
   font-size: 0.85rem;
 }
 
-/* ================
-   小工具类（可选）
-   ================ */
+/* ---------- 6. 杂项统一 ---------- */
+
+/* code / pre 略微圆角 */
+code,
+pre {
+  border-radius: 6px;
+}
+
+/* 链接颜色统一 */
+a {
+  color: var(--zm-primary);
+}
+
+a:hover {
+  color: #00925e;
+}
+
+/* Footer 样式 */
+.footer {
+  color: #e5e7eb;
+}
+
+.footer__title {
+  font-weight: 600;
+}
+
+/* 去掉 Docs/Redoc 页顶部额外空白 */
+.main-wrapper {
+  padding-top: 0;
+}
 
 /* 文档页顶部的小提示条 */
 .zm-callout {
@@ -246,11 +523,7 @@ html[data-theme='dark'] .redocusaurus .api-content .menu-content {
   font-size: 0.9rem;
 }
 
-/* ================
-   Navbar API Reference 下拉菜单分组样式
-   ================ */
-
-/* Navbar 下拉菜单分隔线 */
+/* Navbar API Reference 下拉菜单分组样式 */
 .navbar-separator {
   margin: 0.5rem 0;
   border: none;
@@ -261,7 +534,6 @@ html[data-theme='dark'] .navbar-separator {
   border-top-color: rgba(148, 163, 184, 0.4);
 }
 
-/* API Reference 下拉菜单分隔线 */
 .api-dropdown-separator {
   margin: 4px 0;
   border: none;
@@ -275,130 +547,4 @@ html[data-theme='dark'] .navbar-separator {
   opacity: 0.6;
   text-transform: uppercase;
   color: var(--ifm-color-emphasis-600);
-}
-
-/* ================
-   首页增强样式（金融科技风格）
-   ================ */
-
-/* 品牌色渐变横幅 */
-.home-gradient-bar {
-  height: 6px;
-  width: 100%;
-  background: linear-gradient(90deg, #00a86b, #00c57a);
-}
-
-/* Hero 区径向渐变背景 */
-.hero-section {
-  background: radial-gradient(
-    circle at top,
-    rgba(0, 168, 107, 0.12) 0%,
-    rgba(0, 168, 107, 0.02) 40%,
-    rgba(255, 255, 255, 1) 70%
-  );
-  padding: 5rem 1rem 4rem;
-  text-align: center;
-}
-
-/* 首页按钮样式 */
-.home-btn-primary {
-  background: #00a86b !important;
-  color: #ffffff !important;
-  border: none !important;
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 10px 24px;
-  transition: background 0.2s ease;
-}
-
-.home-btn-primary:hover {
-  background: #00985f !important;
-  color: #ffffff !important;
-}
-
-.home-btn-outline {
-  border-color: #00a86b !important;
-  color: #00a86b !important;
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 10px 24px;
-  transition: all 0.2s ease;
-}
-
-.home-btn-outline:hover {
-  background: rgba(0, 168, 107, 0.08) !important;
-  border-color: #00a86b !important;
-  color: #00a86b !important;
-}
-
-/* 功能卡片增强样式 */
-.feature-card {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 14px;
-  padding: 2rem;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-  transition: all 0.18s ease;
-  background: #fff;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.feature-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  border-color: rgba(0, 168, 107, 0.2);
-}
-
-.feature-icon {
-  margin-bottom: 1rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: rgba(0, 168, 107, 0.08);
-}
-
-.feature-link {
-  color: #00a86b !important;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.feature-link:hover {
-  color: #00985f !important;
-  text-decoration: none;
-}
-
-/* How it works 区样式 */
-.hiw-section {
-  background: #f8fafb;
-  padding: 4rem 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.hiw-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1a1f25;
-  text-align: center;
-  margin-bottom: 0;
-}
-
-.hiw-step-number {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #00a86b;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0 auto 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 168, 107, 0.25);
 }

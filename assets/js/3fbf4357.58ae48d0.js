@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkapi_docs_portal=globalThis.webpackChunkapi_docs_portal||[]).push([[235],{5896:a=>{a.exports=JSON.parse('{"name":"docusaurus-plugin-redoc","id":"market-data-price_history"}')}}]);

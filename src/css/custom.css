@@ -105,20 +105,87 @@ body {
 
 /* ---------- 3. Homepage（Hero + Feature + HIW） ---------- */
 
-/* Hero 区 */
+/* Hero 区整体背景（和 docs 一致的浅绿金融风） */
 .zm-hero-section {
-  padding: 4.5rem 0 3.5rem;
+  padding: 3.5rem 0 3rem;
   background:
-    radial-gradient(circle at 0% 0%, var(--zm-primary-soft-2), transparent 55%),
-    radial-gradient(circle at 100% 0%, var(--zm-primary-soft-2), transparent 55%),
+    radial-gradient(circle at 0% 0%, rgba(0, 168, 107, 0.10), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(0, 197, 122, 0.10), transparent 55%),
     #ffffff;
 }
 
 .zm-hero-container {
-  max-width: 720px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
 }
 
+.zm-hero-split {
+  max-width: 1120px;
+}
+
+.zm-hero-left {
+  flex: 1.1;
+}
+
+.zm-hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 右侧"代码预览卡片" */
+.zm-hero-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.2rem 1.3rem 1.1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  max-width: 420px;
+}
+
+.zm-hero-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.zm-hero-card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.zm-hero-card-pill {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 168, 107, 0.08);
+  color: #047857;
+  font-weight: 500;
+}
+
+.zm-hero-code {
+  font-size: 0.78rem;
+  background: #020617;
+  color: #e5e7eb;
+  border-radius: 10px;
+  padding: 0.8rem 0.9rem;
+  margin: 0 0 0.6rem;
+  overflow: auto;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  line-height: 1.5;
+}
+
+.zm-hero-card-footer {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* 左侧文案区域微调 */
 .zm-hero-badge {
   display: inline-flex;
   align-items: center;
@@ -127,33 +194,59 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  border-radius: var(--zm-radius-pill);
+  border-radius: 999px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   background: rgba(255, 255, 255, 0.9);
   margin-bottom: 12px;
-  color: var(--zm-text-muted);
+  color: #6b7280;
 }
 
 .zm-hero-title {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   line-height: 1.2;
   font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: var(--zm-text-main);
+  margin-bottom: 0.7rem;
+  color: #0f172a;
 }
 
 .zm-hero-subtitle {
-  font-size: 1.02rem;
-  color: var(--zm-text-secondary);
-  margin: 0 auto 1.8rem;
-  max-width: 620px;
+  font-size: 1rem;
+  color: #4b5563;
+  margin-bottom: 1.4rem;
+  max-width: 520px;
 }
 
 .zm-hero-actions {
   display: flex;
-  justify-content: center;
   gap: 0.75rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.zm-hero-metas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.zm-hero-metas span::before {
+  content: "• ";
+}
+
+/* 响应式：小屏改回上下布局 */
+@media (max-width: 960px) {
+  .zm-hero-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .zm-hero-right {
+    width: 100%;
+    justify-content: center;
+  }
+  .zm-hero-card {
+    max-width: 100%;
+  }
 }
 
 .zm-btn-primary {

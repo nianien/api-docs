@@ -4,22 +4,23 @@ import Link from '@docusaurus/Link';
 
 function Hero() {
   return (
-    <>
-      <section className="zm-hero-section">
-        <div className="container zm-hero-container">
+    <section className="zm-hero-section">
+      <div className="container zm-hero-container zm-hero-split">
+        <div className="zm-hero-left">
           <div className="zm-hero-badge">Developer Portal</div>
 
-          <h1 className="zm-hero-title">Zero Markets Developer Portal</h1>
+          <h1 className="zm-hero-title">Zero Markets APIs for trading & data</h1>
 
           <p className="zm-hero-subtitle">
-            Access trading &amp; market data APIs to power your brokerage,
-            quant strategies, and client portals.
+            Integrate trading accounts, real-time market data and account
+            insights into your own platforms, quant strategies and client
+            portals.
           </p>
 
           <div className="zm-hero-actions">
             <Link
               className="button zm-btn-primary"
-              to="/docs/overview/intro"
+              to="/docs/overview/quickstart"
             >
               Get started
             </Link>
@@ -31,13 +32,37 @@ function Hero() {
             </Link>
           </div>
 
-          <p className="zm-hero-meta">
-            REST &amp; WebSocket · Real-time quotes · Positions &amp; history ·
-            Sandbox environment
-          </p>
+          <div className="zm-hero-metas">
+            <span>REST &amp; WebSocket</span>
+            <span>Trading &amp; Market Data</span>
+            <span>Sandbox environment</span>
+          </div>
         </div>
-      </section>
-    </>
+
+        <div className="zm-hero-right">
+          <div className="zm-hero-card">
+            <div className="zm-hero-card-header">
+              <span className="zm-hero-card-title">Quick snapshot</span>
+              <span className="zm-hero-card-pill">Sandbox</span>
+            </div>
+            <pre className="zm-hero-code">
+{`GET /v1/market-data/quotes?symbol=XAUUSD
+
+200 OK
+{
+  "symbol": "XAUUSD",
+  "bid": 2419.35,
+  "ask": 2419.87,
+  "timestamp": "2024-03-10T02:15:23Z"
+}`}
+            </pre>
+            <div className="zm-hero-card-footer">
+              Powered by Zero Markets Market Data &amp; Trading APIs
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -75,7 +100,7 @@ function Features() {
           <FeatureCard
             icon={<span className="zm-emoji">📊</span>}
             title="Market Data"
-            description="Real-time quotes via WebSocket, and historical price data via REST. Build charts, screeners and quant signals."
+            description="Real-time quotes via WebSocket and historical price data via REST. Build charts, screeners and quant signals."
             linkLabel="Explore Market Data"
             to="/docs/market-data/overview"
           />
@@ -106,8 +131,8 @@ function HowItWorks() {
             <div className="zm-hiw-step-index">01</div>
             <h3>Get access</h3>
             <p>
-              Request API access from your Zero Markets account manager and obtain
-              your sandbox credentials.
+              Request API access from your Zero Markets account manager and
+              obtain sandbox credentials.
             </p>
           </div>
 
@@ -115,8 +140,8 @@ function HowItWorks() {
             <div className="zm-hiw-step-index">02</div>
             <h3>Connect to sandbox</h3>
             <p>
-              Integrate with Market Data and Trading APIs in the sandbox
-              environment, validate your flows and risk checks.
+              Integrate Market Data and Trading APIs, validate flows and risk
+              checks without impacting real accounts.
             </p>
           </div>
 
@@ -124,8 +149,8 @@ function HowItWorks() {
             <div className="zm-hiw-step-index">03</div>
             <h3>Go live</h3>
             <p>
-              Switch to production endpoints, rotate credentials and start serving
-              real clients with monitored, high-availability APIs.
+              Switch to production endpoints, rotate credentials and start
+              serving real clients with monitored, high-availability APIs.
             </p>
           </div>
         </div>

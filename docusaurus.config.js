@@ -372,13 +372,8 @@ const config = {
       items: [
         // --- Developer Documentation ---
         {
-          label: 'Quickstart',
+          label: 'Docs',
           to: '/docs/overview/intro',
-          position: 'left',
-        },
-        {
-          label: 'Guides',
-          to: '/docs/overview/architecture',
           position: 'left',
         },
         {

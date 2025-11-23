@@ -20,7 +20,7 @@ function Hero() {
           <div className="zm-hero-actions">
             <Link
               className="button zm-btn-primary"
-              to="/docs/overview/quickstart"
+              to="/docs/quickstart"
             >
               Get started
             </Link>

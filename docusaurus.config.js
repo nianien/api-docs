@@ -373,7 +373,7 @@ const config = {
         // --- Developer Documentation ---
         {
           label: 'Docs',
-          to: '/docs/overview/intro',
+          to: '/docs/quickstart',
           position: 'left',
         },
         {
@@ -384,11 +384,6 @@ const config = {
         {
           label: 'SDK',
           to: '/docs/integration/sdk',
-          position: 'left',
-        },
-        {
-          label: 'Changelog',
-          to: '/docs/changelog',
           position: 'left',
         },
         // --- External link to main website ---

@@ -36,46 +36,112 @@ export default function ApiOverviewPage() {
   return (
     <Layout
       title="API Reference"
-      description="Zero Markets API Reference"
+      description="Zero Markets API Reference - Complete API documentation for Trading and Market Data domains."
     >
-      <main className="container margin-vert--lg">
-        <h1>API Reference</h1>
-        <p className="margin-bottom--lg">
-          所有 OpenAPI 规范按域划分在 <code>static/openapi/&lt;domain&gt;</code>{" "}
-          中。每个 YAML 文件对应一个 Redoc 页面，路由为{" "}
-          <code>/api/&lt;domain&gt;/&lt;fileName&gt;</code>。
-        </p>
+      {/* Brand Gradient Bar */}
+      <div className="home-gradient-bar"></div>
 
-        {domains.map((domain) => {
-          const list = grouped[domain];
-          return (
-            <section key={domain} className="margin-bottom--lg">
-              <h2>{toTitle(domain)}</h2>
-              <div className="row">
-                {list.map((s) => (
-                  <div key={s.id} className="col col--6 margin-bottom--md">
-                    <div className="api-card">
-                      <h3>{s.label}</h3>
-                      <p>
-                        文件：<code>{s.spec}</code>
-                      </p>
-                      <p>
-                        路由：<code>{s.route}</code>
-                      </p>
-                      <Link
-                        className="button button--sm button--primary margin-top--sm"
-                        to={s.route}
-                      >
-                        打开 API 文档
-                      </Link>
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="container">
+          <div className="row">
+            <div className="col col--10 col--offset-1" style={{textAlign: 'center'}}>
+              <h1
+                style={{
+                  fontSize: '2.5rem',
+                  fontWeight: '700',
+                  marginBottom: '1rem',
+                  color: '#1a1f25',
+                  lineHeight: '1.2',
+                }}
+              >
+                API Reference
+              </h1>
+              <p
+                style={{
+                  fontSize: '1.15rem',
+                  lineHeight: '1.6',
+                  marginBottom: '0',
+                  color: '#4b5563',
+                  maxWidth: '720px',
+                  margin: '0 auto',
+                }}
+              >
+                Complete API documentation organized by domain. Each API specification is available as an interactive Redoc page.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* API Domains */}
+      <section style={{padding: '3rem 0', background: '#ffffff'}}>
+        <div className="container">
+          {domains.map((domain) => {
+            const list = grouped[domain];
+            return (
+              <div key={domain} style={{marginBottom: '3rem'}}>
+                <h2
+                  style={{
+                    fontSize: '1.75rem',
+                    fontWeight: '600',
+                    marginBottom: '1.5rem',
+                    color: '#1a1f25',
+                  }}
+                >
+                  {toTitle(domain)}
+                </h2>
+                <div className="row">
+                  {list.map((s) => (
+                    <div key={s.id} className="col col--6 margin-bottom--lg">
+                      <div className="feature-card">
+                        <h3
+                          style={{
+                            fontSize: '1.25rem',
+                            fontWeight: '600',
+                            marginBottom: '0.75rem',
+                            color: '#1a1f25',
+                          }}
+                        >
+                          {s.label}
+                        </h3>
+                        <div style={{marginBottom: '1rem'}}>
+                          <div style={{marginBottom: '0.5rem', fontSize: '0.85rem'}}>
+                            <strong style={{color: '#1a1f25'}}>File:</strong>{' '}
+                            <code style={{
+                              background: 'rgba(0, 168, 107, 0.08)',
+                              color: '#00a86b',
+                              padding: '0.2rem 0.5rem',
+                              borderRadius: '4px',
+                              fontSize: '0.85rem',
+                            }}>{s.spec}</code>
+                          </div>
+                          <div style={{fontSize: '0.85rem'}}>
+                            <strong style={{color: '#1a1f25'}}>Route:</strong>{' '}
+                            <code style={{
+                              background: 'rgba(0, 168, 107, 0.08)',
+                              color: '#00a86b',
+                              padding: '0.2rem 0.5rem',
+                              borderRadius: '4px',
+                              fontSize: '0.85rem',
+                            }}>{s.route}</code>
+                          </div>
+                        </div>
+                        <Link
+                          className="button button--primary home-btn-primary"
+                          to={s.route}
+                        >
+                          Open API Documentation
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </section>
-          );
-        })}
-      </main>
+            );
+          })}
+        </div>
+      </section>
     </Layout>
   );
 }

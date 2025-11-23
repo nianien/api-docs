@@ -86,91 +86,146 @@ export default function Platforms() {
       title="Trading Platforms"
       description="Choose from MetaTrader 4, MetaTrader 5, WebTrader, or API trading. All platforms offer fast execution and advanced trading tools."
     >
-      <div className="container margin-vert--xl">
-        <div className="row">
-          <div className="col col--12">
-            <h1>Trading Platforms</h1>
-            <p style={{fontSize: '1.1rem', lineHeight: 1.8, marginBottom: '3rem'}}>
-              Zero Markets offers multiple trading platforms to suit your trading style and preferences.
-              Whether you prefer desktop software, mobile apps, web-based trading, or programmatic access,
-              we have the right solution for you.
-            </p>
+      {/* Brand Gradient Bar */}
+      <div className="home-gradient-bar"></div>
+
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="container">
+          <div className="row">
+            <div className="col col--10 col--offset-1" style={{textAlign: 'center'}}>
+              <h1
+                style={{
+                  fontSize: '2.5rem',
+                  fontWeight: '700',
+                  marginBottom: '1rem',
+                  color: '#1a1f25',
+                  lineHeight: '1.2',
+                }}
+              >
+                Trading Platforms
+              </h1>
+              <p
+                style={{
+                  fontSize: '1.15rem',
+                  lineHeight: '1.6',
+                  marginBottom: '0',
+                  color: '#4b5563',
+                  maxWidth: '720px',
+                  margin: '0 auto',
+                }}
+              >
+                Zero Markets offers multiple trading platforms to suit your trading style and preferences.
+                Whether you prefer desktop software, mobile apps, web-based trading, or programmatic access,
+                we have the right solution for you.
+              </p>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div className="row">
-          {platforms.map((platform) => (
-            <div key={platform.name} className="col col--6 margin-bottom--lg">
-              <div className="api-card" style={{height: '100%'}}>
-                <div style={{display: 'flex', alignItems: 'center', marginBottom: '1rem'}}>
-                  <span style={{fontSize: '2.5rem', marginRight: '1rem'}}>{platform.icon}</span>
-                  <div>
-                    <h2 style={{color: 'var(--ifm-color-primary)', margin: 0}}>
+      {/* Platforms Grid */}
+      <section style={{padding: '3rem 0', background: '#ffffff'}}>
+        <div className="container">
+          <div className="row">
+            {platforms.map((platform) => (
+              <div key={platform.name} className="col col--6 margin-bottom--lg">
+                <div className="feature-card">
+                  <div className="feature-icon" style={{color: '#00a86b'}}>
+                    <span style={{fontSize: '1.75rem'}}>{platform.icon}</span>
+                  </div>
+                  <div style={{marginBottom: '1rem'}}>
+                    <h2
+                      style={{
+                        fontSize: '1.5rem',
+                        fontWeight: '600',
+                        marginBottom: '0.25rem',
+                        color: '#1a1f25',
+                      }}
+                    >
                       {platform.name}
                     </h2>
                     <span
                       style={{
                         fontSize: '0.9rem',
-                        color: 'var(--ifm-color-content-secondary)',
+                        color: '#6b7280',
+                        fontWeight: '500',
                       }}
                     >
                       {platform.shortName}
                     </span>
                   </div>
-                </div>
-                <p style={{marginBottom: '1.5rem'}}>{platform.description}</p>
-                <div style={{marginBottom: '1.5rem'}}>
-                  <strong>Key Features:</strong>
-                  <ul style={{marginTop: '0.5rem', paddingLeft: '1.5rem'}}>
-                    {platform.features.map((feature, idx) => (
-                      <li key={idx} style={{marginBottom: '0.5rem'}}>
-                        {feature}
-                      </li>
+                  <p
+                    style={{
+                      color: '#4b5563',
+                      lineHeight: '1.6',
+                      marginBottom: '1.5rem',
+                      fontSize: '0.95rem',
+                    }}
+                  >
+                    {platform.description}
+                  </p>
+                  <div style={{marginBottom: '1.5rem'}}>
+                    <strong style={{color: '#1a1f25', fontSize: '0.9rem', display: 'block', marginBottom: '0.75rem'}}>Key Features:</strong>
+                    <ul style={{margin: 0, paddingLeft: '1.5rem', color: '#4b5563', fontSize: '0.9rem', lineHeight: '1.8'}}>
+                      {platform.features.map((feature, idx) => (
+                        <li key={idx} style={{marginBottom: '0.4rem'}}>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: 'auto'}}>
+                    {Object.entries(platform.downloadLinks).map(([platformName, url]) => (
+                      <Link
+                        key={platformName}
+                        className="button button--outline button--sm home-btn-outline"
+                        to={url}
+                        href={url.startsWith('http') ? url : undefined}
+                        style={{fontSize: '0.85rem'}}
+                      >
+                        {platformName === 'web' ? 'Launch WebTrader' :
+                         platformName === 'docs' ? 'View API Docs' :
+                         platformName === 'rest' ? 'REST API' :
+                         `Download for ${platformName.charAt(0).toUpperCase() + platformName.slice(1)}`}
+                      </Link>
                     ))}
-                  </ul>
-                </div>
-                <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.5rem'}}>
-                  {Object.entries(platform.downloadLinks).map(([platformName, url]) => (
-                    <Link
-                      key={platformName}
-                      className="button button--outline button--sm"
-                      to={url}
-                      href={url.startsWith('http') ? url : undefined}
-                    >
-                      {platformName === 'web' ? 'Launch WebTrader' :
-                       platformName === 'docs' ? 'View API Docs' :
-                       platformName === 'rest' ? 'REST API' :
-                       `Download for ${platformName.charAt(0).toUpperCase() + platformName.slice(1)}`}
-                    </Link>
-                  ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+      </section>
 
-        <div className="row margin-top--xl">
-          <div className="col col--12">
-            <div
-              style={{
-                padding: '2rem',
-                background: 'var(--ifm-color-primary-lighter)',
-                borderRadius: '12px',
-                textAlign: 'center',
-              }}
-            >
-              <h3>Need Help Choosing a Platform?</h3>
-              <p style={{marginBottom: '1.5rem'}}>
-                Our support team can help you select the best platform for your trading needs.
-              </p>
-              <Link className="button button--primary button--lg" href="mailto:support@zeromarkets.com">
-                Contact Support
-              </Link>
+      {/* CTA Section */}
+      <section style={{padding: '3rem 0', background: '#f8fafb', borderTop: '1px solid rgba(0,0,0,0.06)'}}>
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <div
+                style={{
+                  padding: '2.5rem',
+                  background: '#ffffff',
+                  borderRadius: '14px',
+                  textAlign: 'center',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.06)',
+                }}
+              >
+                <h3 style={{fontSize: '1.5rem', fontWeight: '600', marginBottom: '1rem', color: '#1a1f25'}}>
+                  Need Help Choosing a Platform?
+                </h3>
+                <p style={{color: '#4b5563', marginBottom: '1.5rem', fontSize: '1rem'}}>
+                  Our support team can help you select the best platform for your trading needs.
+                </p>
+                <Link className="button button--primary button--lg home-btn-primary" href="mailto:support@zeromarkets.com">
+                  Contact Support
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </Layout>
   );
 }
-

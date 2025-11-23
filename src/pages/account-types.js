@@ -63,136 +63,197 @@ export default function AccountTypes() {
       title="Account Types"
       description="Choose the account type that best suits your trading style. From Standard to ECN, we offer accounts for all types of traders."
     >
-      <div className="container margin-vert--xl">
-        <div className="row">
-          <div className="col col--12">
-            <h1>Account Types</h1>
-            <p style={{fontSize: '1.1rem', lineHeight: 1.8, marginBottom: '3rem'}}>
-              Zero Markets offers a variety of account types to meet the needs of different traders.
-              Whether you're a beginner or an experienced professional, we have an account that fits your trading style.
-            </p>
-          </div>
-        </div>
+      {/* Brand Gradient Bar */}
+      <div className="home-gradient-bar"></div>
 
-        <div className="row">
-          {accountTypes.map((account) => (
-            <div key={account.name} className="col col--6 margin-bottom--lg">
-              <div
-                className="api-card"
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="container">
+          <div className="row">
+            <div className="col col--10 col--offset-1" style={{textAlign: 'center'}}>
+              <h1
                 style={{
-                  height: '100%',
-                  border: account.recommended
-                    ? '2px solid var(--ifm-color-primary)'
-                    : '1px solid rgba(148, 163, 184, 0.35)',
-                  position: 'relative',
+                  fontSize: '2.5rem',
+                  fontWeight: '700',
+                  marginBottom: '1rem',
+                  color: '#1a1f25',
+                  lineHeight: '1.2',
                 }}
               >
-                {account.recommended && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '1rem',
-                      right: '1rem',
-                      background: 'var(--ifm-color-primary)',
-                      color: 'white',
-                      padding: '0.25rem 0.75rem',
-                      borderRadius: '6px',
-                      fontSize: '0.8rem',
-                      fontWeight: '600',
-                    }}
-                  >
-                    Recommended
-                  </div>
-                )}
-                <div style={{display: 'flex', alignItems: 'center', marginBottom: '1rem'}}>
-                  <span style={{fontSize: '2.5rem', marginRight: '1rem'}}>{account.icon}</span>
-                  <h2 style={{color: 'var(--ifm-color-primary)', margin: 0}}>
-                    {account.name}
-                  </h2>
-                </div>
-                <p style={{marginBottom: '1.5rem'}}>{account.description}</p>
-                <div style={{marginBottom: '1.5rem'}}>
-                  <div style={{marginBottom: '0.75rem'}}>
-                    <strong>Minimum Deposit:</strong> {account.minDeposit}
-                  </div>
-                  <div style={{marginBottom: '0.75rem'}}>
-                    <strong>Spreads:</strong> {account.spread}
-                  </div>
-                  <div style={{marginBottom: '0.75rem'}}>
-                    <strong>Commission:</strong> {account.commission}
-                  </div>
-                  <div style={{marginBottom: '0.75rem'}}>
-                    <strong>Leverage:</strong> {account.leverage}
-                  </div>
-                  <div style={{marginBottom: '0.75rem'}}>
-                    <strong>Instruments:</strong> {account.instruments}
-                  </div>
-                  <div style={{marginBottom: '0.75rem'}}>
-                    <strong>Execution:</strong> {account.execution}
-                  </div>
-                  {account.swapFree && (
-                    <div style={{marginBottom: '0.75rem'}}>
-                      <strong>Swap-Free:</strong> Yes
+                Account Types
+              </h1>
+              <p
+                style={{
+                  fontSize: '1.15rem',
+                  lineHeight: '1.6',
+                  marginBottom: '0',
+                  color: '#4b5563',
+                  maxWidth: '720px',
+                  margin: '0 auto',
+                }}
+              >
+                Zero Markets offers a variety of account types to meet the needs of different traders.
+                Whether you're a beginner or an experienced professional, we have an account that fits your trading style.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Account Types Grid */}
+      <section style={{padding: '3rem 0', background: '#ffffff'}}>
+        <div className="container">
+          <div className="row">
+            {accountTypes.map((account) => (
+              <div key={account.name} className="col col--6 margin-bottom--lg">
+                <div
+                  className="feature-card"
+                  style={{
+                    border: account.recommended
+                      ? '2px solid #00a86b'
+                      : '1px solid rgba(0, 0, 0, 0.08)',
+                    position: 'relative',
+                  }}
+                >
+                  {account.recommended && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '1rem',
+                        right: '1rem',
+                        background: '#00a86b',
+                        color: 'white',
+                        padding: '0.35rem 0.75rem',
+                        borderRadius: '6px',
+                        fontSize: '0.75rem',
+                        fontWeight: '600',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                      }}
+                    >
+                      Recommended
                     </div>
                   )}
+                  <div className="feature-icon" style={{color: '#00a86b'}}>
+                    <span style={{fontSize: '1.75rem'}}>{account.icon}</span>
+                  </div>
+                  <h2
+                    style={{
+                      fontSize: '1.5rem',
+                      fontWeight: '600',
+                      marginBottom: '0.75rem',
+                      color: '#1a1f25',
+                    }}
+                  >
+                    {account.name}
+                  </h2>
+                  <p
+                    style={{
+                      color: '#4b5563',
+                      lineHeight: '1.6',
+                      marginBottom: '1.5rem',
+                      fontSize: '0.95rem',
+                    }}
+                  >
+                    {account.description}
+                  </p>
+                  <div style={{marginBottom: '1.5rem'}}>
+                    <div style={{marginBottom: '0.75rem', fontSize: '0.9rem'}}>
+                      <strong style={{color: '#1a1f25'}}>Minimum Deposit:</strong>{' '}
+                      <span style={{color: '#4b5563'}}>{account.minDeposit}</span>
+                    </div>
+                    <div style={{marginBottom: '0.75rem', fontSize: '0.9rem'}}>
+                      <strong style={{color: '#1a1f25'}}>Spreads:</strong>{' '}
+                      <span style={{color: '#4b5563'}}>{account.spread}</span>
+                    </div>
+                    <div style={{marginBottom: '0.75rem', fontSize: '0.9rem'}}>
+                      <strong style={{color: '#1a1f25'}}>Commission:</strong>{' '}
+                      <span style={{color: '#4b5563'}}>{account.commission}</span>
+                    </div>
+                    <div style={{marginBottom: '0.75rem', fontSize: '0.9rem'}}>
+                      <strong style={{color: '#1a1f25'}}>Leverage:</strong>{' '}
+                      <span style={{color: '#4b5563'}}>{account.leverage}</span>
+                    </div>
+                    <div style={{marginBottom: '0.75rem', fontSize: '0.9rem'}}>
+                      <strong style={{color: '#1a1f25'}}>Instruments:</strong>{' '}
+                      <span style={{color: '#4b5563'}}>{account.instruments}</span>
+                    </div>
+                    <div style={{marginBottom: '0.75rem', fontSize: '0.9rem'}}>
+                      <strong style={{color: '#1a1f25'}}>Execution:</strong>{' '}
+                      <span style={{color: '#4b5563'}}>{account.execution}</span>
+                    </div>
+                    {account.swapFree && (
+                      <div style={{marginBottom: '0.75rem', fontSize: '0.9rem'}}>
+                        <strong style={{color: '#1a1f25'}}>Swap-Free:</strong>{' '}
+                        <span style={{color: '#4b5563'}}>Yes</span>
+                      </div>
+                    )}
+                  </div>
+                  <Link
+                    className="button button--primary home-btn-primary"
+                    to="/docs/products/accounts"
+                    style={{width: '100%', textAlign: 'center'}}
+                  >
+                    Learn More
+                  </Link>
                 </div>
-                <Link
-                  className="button button--primary"
-                  to="/docs/products/accounts"
-                  style={{width: '100%', textAlign: 'center'}}
-                >
-                  Learn More
-                </Link>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+      </section>
 
-        <div className="row margin-top--xl">
-          <div className="col col--12">
-            <div
-              style={{
-                padding: '2rem',
-                background: 'var(--ifm-color-primary-lighter)',
-                borderRadius: '12px',
-                textAlign: 'center',
-              }}
-            >
-              <h3>Ready to Open an Account?</h3>
-              <p style={{marginBottom: '1.5rem'}}>
-                Get started today and begin trading with competitive spreads and fast execution.
-              </p>
-              <div style={{display: 'flex', gap: '1rem', justifyContent: 'center'}}>
-                <Link className="button button--primary button--lg" href="https://zeromarkets.com/register">
-                  Open Account
-                </Link>
-                <Link className="button button--outline button--lg" to="/docs/products/funding">
-                  Funding Options
-                </Link>
+      {/* CTA Section */}
+      <section style={{padding: '3rem 0', background: '#f8fafb', borderTop: '1px solid rgba(0,0,0,0.06)'}}>
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <div
+                style={{
+                  padding: '2.5rem',
+                  background: '#ffffff',
+                  borderRadius: '14px',
+                  textAlign: 'center',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.06)',
+                }}
+              >
+                <h3 style={{fontSize: '1.5rem', fontWeight: '600', marginBottom: '1rem', color: '#1a1f25'}}>
+                  Ready to Open an Account?
+                </h3>
+                <p style={{color: '#4b5563', marginBottom: '1.5rem', fontSize: '1rem'}}>
+                  Get started today and begin trading with competitive spreads and fast execution.
+                </p>
+                <div style={{display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap'}}>
+                  <Link className="button button--primary button--lg home-btn-primary" href="https://zeromarkets.com/register">
+                    Open Account
+                  </Link>
+                  <Link className="button button--outline button--lg home-btn-outline" to="/docs/products/funding">
+                    Funding Options
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <div className="row margin-top--lg">
-          <div className="col col--12">
-            <div
-              style={{
-                padding: '1.5rem',
-                background: '#fff3cd',
-                border: '1px solid #ffc107',
-                borderRadius: '8px',
-                marginTop: '2rem',
-              }}
-            >
-              <strong>⚠️ Important:</strong> Account specifications are subject to change. 
-              Please refer to the latest account information on our website or contact support 
-              for the most up-to-date details. Leverage and trading conditions may vary by jurisdiction.
+      {/* Important Notice */}
+      <section style={{padding: '2rem 0', background: '#ffffff'}}>
+        <div className="container">
+          <div className="row">
+            <div className="col col--10 col--offset-1">
+              <div className="zm-callout" style={{background: '#fff3cd', borderColor: '#ffc107'}}>
+                <strong style={{color: '#856404'}}>⚠️ Important:</strong>{' '}
+                <span style={{color: '#856404'}}>
+                  Account specifications are subject to change. Please refer to the latest account information 
+                  on our website or contact support for the most up-to-date details. 
+                  Leverage and trading conditions may vary by jurisdiction.
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </Layout>
   );
 }
-

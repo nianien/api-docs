@@ -364,69 +364,42 @@ const config = {
       disableSwitch: false,
     },
     navbar: {
-      style: 'primary',
       title: 'Zero Markets',
       logo: {
         alt: 'Zero Markets Logo',
         src: 'img/logo-3.png',
       },
       items: [
-        // 产品向导航（面向交易用户）
+        // --- Developer Documentation ---
         {
-          label: 'Markets',
-          to: '/markets',
+          label: 'Quickstart',
+          to: '/docs/overview/intro',
           position: 'left',
         },
         {
-          label: 'Platforms',
-          to: '/platforms',
+          label: 'Guides',
+          to: '/docs/overview/architecture',
           position: 'left',
         },
-        {
-          label: 'Account Types',
-          to: '/account-types',
-          position: 'left',
-        },
-        // 开发者中心（整合所有开发者资源）
-        {
-          label: 'Developers',
-          position: 'left',
-          items: [
-            {
-              label: '🚀 Quickstart',
-              to: '/docs/overview/intro',
-            },
-            {
-              type: 'html',
-              value: '<hr class="navbar-separator" />',
-            },
-            {
-              label: 'Guides',
-              to: '/docs/overview/intro',
-            },
-            {
-              label: 'SDK',
-              to: '/docs/integration/sdk',
-            },
-            {
-              type: 'html',
-              value: '<hr class="navbar-separator" />',
-            },
-            {
-              label: 'Changelog',
-              to: '/docs/changelog',
-            },
-          ],
-        },
-        // API Reference 单独放在顶栏（保持下拉菜单）
         {
           label: 'API Reference',
           position: 'left',
-          items: buildApiNavItems(), // ★ 自动按 domain 分组生成
+          items: buildApiNavItems(), // 自动生成 Market Data / Trading 分组
         },
         {
-          href: 'https://zeromarkets.com',
+          label: 'SDK',
+          to: '/docs/integration/sdk',
+          position: 'left',
+        },
+        {
+          label: 'Changelog',
+          to: '/docs/changelog',
+          position: 'left',
+        },
+        // --- External link to main website ---
+        {
           label: 'Main Website',
+          href: 'https://zeromarkets.com/',
           position: 'right',
         },
       ],
@@ -454,3 +427,4 @@ const config = {
 };
 
 module.exports = config;
+

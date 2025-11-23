@@ -50,9 +50,28 @@ html[data-theme='dark'] {
    顶部导航 & Footer
    ================ */
 
-/* 顶部导航轻微阴影，跟首页保持一致 */
+/* 白底商务风 Navbar */
 .navbar {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.navbar__brand,
+.navbar__item,
+.navbar__link {
+  color: #111 !important;
+  font-weight: 500;
+}
+
+.navbar__item:hover,
+.navbar__link:hover {
+  color: #00a86b !important;
+}
+
+.navbar__item--active .navbar__link {
+  color: #00a86b !important;
+  font-weight: 600;
 }
 
 /* 去掉 Docs/Redoc 页顶部额外空白，让视觉更紧凑 */
@@ -256,4 +275,130 @@ html[data-theme='dark'] .navbar-separator {
   opacity: 0.6;
   text-transform: uppercase;
   color: var(--ifm-color-emphasis-600);
+}
+
+/* ================
+   首页增强样式（金融科技风格）
+   ================ */
+
+/* 品牌色渐变横幅 */
+.home-gradient-bar {
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(90deg, #00a86b, #00c57a);
+}
+
+/* Hero 区径向渐变背景 */
+.hero-section {
+  background: radial-gradient(
+    circle at top,
+    rgba(0, 168, 107, 0.12) 0%,
+    rgba(0, 168, 107, 0.02) 40%,
+    rgba(255, 255, 255, 1) 70%
+  );
+  padding: 5rem 1rem 4rem;
+  text-align: center;
+}
+
+/* 首页按钮样式 */
+.home-btn-primary {
+  background: #00a86b !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 24px;
+  transition: background 0.2s ease;
+}
+
+.home-btn-primary:hover {
+  background: #00985f !important;
+  color: #ffffff !important;
+}
+
+.home-btn-outline {
+  border-color: #00a86b !important;
+  color: #00a86b !important;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 24px;
+  transition: all 0.2s ease;
+}
+
+.home-btn-outline:hover {
+  background: rgba(0, 168, 107, 0.08) !important;
+  border-color: #00a86b !important;
+  color: #00a86b !important;
+}
+
+/* 功能卡片增强样式 */
+.feature-card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  transition: all 0.18s ease;
+  background: #fff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: rgba(0, 168, 107, 0.2);
+}
+
+.feature-icon {
+  margin-bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(0, 168, 107, 0.08);
+}
+
+.feature-link {
+  color: #00a86b !important;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.feature-link:hover {
+  color: #00985f !important;
+  text-decoration: none;
+}
+
+/* How it works 区样式 */
+.hiw-section {
+  background: #f8fafb;
+  padding: 4rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.hiw-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1f25;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.hiw-step-number {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #00a86b;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 168, 107, 0.25);
 }

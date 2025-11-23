@@ -593,13 +593,24 @@ a:hover {
   color: #00925e;
 }
 
-/* Footer 样式 */
+/* Footer 样式 - Zero Markets 金融科技风格 */
 .footer {
-  color: #e5e7eb;
+  background-color: #f3f4f6 !important; /* 很浅的灰 */
+  color: #4b5563 !important; /* 字体深灰 */
+  border-top: 1px solid #e5e7eb !important; /* 上边细分隔线 */
 }
 
 .footer__title {
   font-weight: 600;
+  color: #111827 !important;
+}
+
+.footer a {
+  color: #064e3b !important; /* Zero Green 深一点 */
+}
+
+.footer a:hover {
+  color: #10b981 !important;
 }
 
 /* 去掉 Docs/Redoc 页顶部额外空白 */

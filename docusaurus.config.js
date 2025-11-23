@@ -395,7 +395,7 @@ const config = {
       ],
     },
     footer: {
-      style: 'dark',
+      style: 'light',
       links: buildFooterLinks(), // ★ 自动从 docs/ 目录结构生成
       copyright:
         '© ' +
